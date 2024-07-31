@@ -121,7 +121,7 @@ public class AddCustomerController {
         try {
             Statement stm = DBConnection.getInstance().getConnection().createStatement();
             ResultSet result = stm.executeQuery(sql);
-
+            System.out.println(result.toString());
             while (result.next()) {
                 Button Ebtn = new Button("Edit");
                 Button Dbtn = new Button("Delete");
@@ -138,7 +138,7 @@ public class AddCustomerController {
                         Ebtn,
                         Dbtn
                 );
-
+                System.out.println(result.getString(1));
                 Customer customer = new Customer(
                         result.getString(1),
                         result.getString(2),

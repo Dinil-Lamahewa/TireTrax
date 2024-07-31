@@ -12,7 +12,7 @@ public class AppInitializer extends Application {
     }
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("View/AddCustomer.fxml")))));
+        stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("View/Home.fxml")))));
         stage.centerOnScreen();
         stage.setTitle("TireTrax");
         stage.setResizable(false);
