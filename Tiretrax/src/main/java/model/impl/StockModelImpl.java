@@ -1,4 +1,4 @@
-package model.impl;
+package Model.impl;
 
 import dto.Stock;
 import model.StockModel;

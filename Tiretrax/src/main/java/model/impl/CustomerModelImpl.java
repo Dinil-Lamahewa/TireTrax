@@ -1,8 +1,8 @@
-package model.impl;
+package Model.impl;
 
+import Model.CustomerModel;
 import db.DBConnection;
 import dto.Customer;
-import model.CustomerModel;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
