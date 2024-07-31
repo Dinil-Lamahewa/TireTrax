@@ -1,10 +1,11 @@
-package Model.impl;
+package model.impl;
 
-import Model.CustomerModel;
 import db.DBConnection;
 import dto.Customer;
+import model.CustomerModel;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class CustomerModelImpl implements CustomerModel {
 
     @Override
     public boolean updateCustomer(Customer customer) throws SQLException, ClassNotFoundException {
-        String sql ="UPDATE Customer SET name=? , contact = ?, email = ?, address = ?, type = ?, credit_limit = ?, credit_period = ? WHERE customer_id=?";
+        String sql ="UPDATE Customer SET Name=? , Contact = ?, Email = ?, Address = ?, Type = ?, CreditLimit = ?, CreditPeriod = ? WHERE CustomerId=?";
         PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql);
 
         preparedStatement.setString(1, customer.getName());
@@ -45,12 +46,20 @@ public class CustomerModelImpl implements CustomerModel {
 
     @Override
     public boolean deleteCustomer(String id) throws SQLException, ClassNotFoundException {
-        String sql ="DELETE FROM Customer WHERE customer_id=?";
+        String sql ="DELETE FROM Customer WHERE CustomerId=?";
         PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql);
 
         preparedStatement.setString(1,id);
 
         return preparedStatement.executeUpdate()>0;
+    }
+
+    @Override
+    public ResultSet getCustomerByContact(String contact) throws SQLException, ClassNotFoundException {
+        String sql ="SELECT*FROM Customer WHERE Contact=?";
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql);
+        preparedStatement.setString(1,contact);
+        return preparedStatement.executeQuery();
     }
 
     @Override
