@@ -1,19 +1,23 @@
 package controller;
 
+import Model.CustomerModel;
+import Model.impl.CustomerModelImpl;
 import db.DBConnection;
 import dto.Customer;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.ReadOnlyStringWrapper;
+import dto.tm.CustomerTm;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Callback;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.*;
-
-
 
 public class AddCustomerController {
     public TextField txtFirstName;
@@ -26,97 +30,53 @@ public class AddCustomerController {
     public ComboBox<String> cmbCustomerType;
     public Button btnBack;
     public Button btnSave;
-    public TableView<Customer> tblCustomer;
-    public TableColumn<Customer, String> cusId;
-    public TableColumn<Customer, String> name;
-    public TableColumn<Customer, String> contact;
-    public TableColumn<Customer, String> email;
-    public TableColumn<Customer, String> address;
-    public TableColumn<Customer, String> type;
-    public TableColumn<Customer, Double> creditLimit;
-    public TableColumn<Customer, String> creditPeriod;
-    public TableColumn<Customer, Void> editColumn;
+    public TableView<CustomerTm> tblCustomer;
+    public TableColumn<CustomerTm, String> cusId;
+    public TableColumn<CustomerTm, String> name;
+    public TableColumn<CustomerTm, String> contact;
+    public TableColumn<CustomerTm, String> email;
+    public TableColumn<CustomerTm, String> address;
+    public TableColumn<CustomerTm, String> type;
+    public TableColumn<CustomerTm, String> creditLimit;
+    public TableColumn<CustomerTm, String> creditPeriod;
+    public TableColumn<CustomerTm, Void> editColumn;
     public AnchorPane AddCustomer;
     public Button SearBtn;
-
-    private ObservableList<Customer> customerList = FXCollections.observableArrayList();
+    public TableColumn<CustomerTm, Void> DeleteColumn;
+    private CustomerModel customerModel = new CustomerModelImpl();
+    ObservableList<CustomerTm> customerData = FXCollections.observableArrayList();
 
     public void initialize() {
-
-        refreshTable();
-        // Initialize TableView columns
-        cusId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getCustomerId()));
-        name.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
-        contact.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getContact()));
-        email.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getEmail()));
-        address.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getAddress()));
-        type.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getType()));
-        creditLimit.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getCreditLimit()));
-        creditPeriod.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getCreditPeriod()));
-
+        cusId.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
+        name.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        contact.setCellValueFactory(new PropertyValueFactory<>("Contact"));
+        email.setCellValueFactory(new PropertyValueFactory<>("Email"));
+        address.setCellValueFactory(new PropertyValueFactory<>("Address"));
+        type.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        creditLimit.setCellValueFactory(new PropertyValueFactory<>("CreditLimit"));
+        creditPeriod.setCellValueFactory(new PropertyValueFactory<>("CreditPeriod"));
+        editColumn.setCellValueFactory(new PropertyValueFactory<>("edit"));
+        DeleteColumn.setCellValueFactory(new PropertyValueFactory<>("Delete"));
         cmbCustomerType.setItems(FXCollections.observableArrayList("Regular", "On-time"));
-
-        // Add a cell factory to the editColumn
-        Callback<TableColumn<Customer, Void>, TableCell<Customer, Void>> cellFactory = new Callback<>() {
-            @Override
-            public TableCell<Customer, Void> call(final TableColumn<Customer, Void> param) {
-                final TableCell<Customer, Void> cell = new TableCell<>() {
-
-                    private final Button btn = new Button("Edit");
-
-                    {
-                        btn.setOnAction((ActionEvent event) -> {
-                            Customer customer = getTableView().getItems().get(getIndex());
-                            loadCustomerData(customer);
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
-
-        editColumn.setCellFactory(cellFactory);
-
-        // Add some dummy data for demonstration
-
+        loadCustomerTable();
+//        tblCustomer.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldValue, newValue) ->{
+//            setData((CustomerTm)newValue);
+//        } ));
     }
 
-    private void refreshTable() {
-        customerList.clear(); // Clear the current list
-
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Customer");
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                String id = resultSet.getString("CustomerId");
-                String name = resultSet.getString("Name");
-                String contact = resultSet.getString("Contact");
-                String email = resultSet.getString("Email");
-                String address = resultSet.getString("Address");
-                String type = resultSet.getString("Type");
-                double creditLimit = resultSet.getDouble("CreditLimit");
-                String creditPeriod = resultSet.getString("CreditPeriod");
-
-                customerList.add(new Customer(id, name, contact, email, address, type, creditLimit, creditPeriod));
-            }
-
-            tblCustomer.setItems(customerList); // Set the updated list to TableView
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
+//    private void setData(CustomerTm newValue) {
+//        if(newValue!=null) {
+//            String[] nameParts =newValue.getName().split(" ", 2);
+//            txtFirstName.setText(nameParts.length > 0 ? nameParts[0] : "");
+//            txtLastName.setText(nameParts.length > 1 ? nameParts[1] : "");
+//            txtAddress.setText(newValue.getAddress());
+//            txtContact.setText(newValue.getContact());
+//            txtEmail.setText(newValue.getEmail());
+//            cmbCustomerType.setItems(FXCollections.observableArrayList(newValue.getType()));
+//            txtCreditLimit.setText(String.valueOf(newValue.getCreditLimit()));
+//            txtCreditPeriod.setText(newValue.getCreditPeriod());
+//        }
+//    }
 
     private void loadCustomerData(Customer customer) {
         String[] nameParts = customer.getName().split(" ", 2);
@@ -129,93 +89,126 @@ public class AddCustomerController {
         txtCreditPeriod.setText(customer.getCreditPeriod());
         cmbCustomerType.setValue(customer.getType());
     }
-    private String generateCustomerId() {
+
+    private String generateCustomerId() throws SQLException, ClassNotFoundException {
         String customerId = null;
+        String sql = "SELECT MAX(CustomerId) AS maxId FROM Customer";
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT MAX(CustomerId) AS maxId FROM Customer")) {
-
-            if (resultSet.next()) {
-                String maxId = resultSet.getString("maxId");
-                int idNumber = maxId != null ? Integer.parseInt(maxId.replace("CS", "")) : 0;
-                customerId = String.format("CS%05d", idNumber + 1);
-            } else {
-                customerId = "CS00001";
-            }
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+        if (resultSet.next()) {
+            String maxId = resultSet.getString("maxId");
+            int idNumber = maxId != null ? Integer.parseInt(maxId.replace("CS", "")) : 0;
+            customerId = String.format("CS%05d", idNumber + 1);
+        } else {
+            customerId = "CS00001";
         }
 
         return customerId;
     }
 
+    public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) AddCustomer.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/resources/View/Home.fxml"))));
+        stage.show();
+    }
 
-    public void btnBackOnAction(ActionEvent actionEvent) {
-        // Handle back button action
+    private void loadCustomerTable() {
+        ObservableList<CustomerTm> tmList = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM Customer";
+
+        try {
+            Statement stm = DBConnection.getInstance().getConnection().createStatement();
+            ResultSet result = stm.executeQuery(sql);
+
+            while (result.next()) {
+                Button Ebtn = new Button("Edit");
+                Button Dbtn = new Button("Delete");
+
+                CustomerTm tm = new CustomerTm(
+                        result.getString(1),
+                        result.getString(2),
+                        result.getString(3),
+                        result.getString(4),
+                        result.getString(5),
+                        result.getString(6),
+                        result.getDouble(7),
+                        result.getString(8),
+                        Ebtn,
+                        Dbtn
+                );
+
+                Customer customer = new Customer(
+                        result.getString(1),
+                        result.getString(2),
+                        result.getString(3),
+                        result.getString(4),
+                        result.getString(5),
+                        result.getString(6),
+                        result.getDouble(7),
+                        result.getString(8)
+                );
+
+                Dbtn.setOnAction(actionEvent -> deleteCustomer(tm.getCustomerId()));
+
+                Ebtn.setOnAction(event -> loadCustomerData(customer));
+
+                tmList.add(tm);
+            }
+
+            tblCustomer.setItems(tmList);
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteCustomer(String CustomerId) {
+        try {
+            boolean isDeleted = customerModel.deleteCustomer(CustomerId);
+            if (isDeleted) {
+                new Alert(Alert.AlertType.INFORMATION, "Customer Deleted!").show();
+                loadCustomerTable();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
-        String firstName = txtFirstName.getText().trim();
-        String lastName = txtLastName.getText().trim();
-        String address = txtAddress.getText().trim();
-        String contact = txtContact.getText().trim();
-        String email = txtEmail.getText().trim();
-        String creditPeriod = txtCreditPeriod.getText().trim();
-        String type = cmbCustomerType.getValue();
-
-        // Validate inputs
-        if (firstName.isEmpty() || lastName.isEmpty() || address.isEmpty() ||
-                contact.isEmpty() || email.isEmpty() || creditPeriod.isEmpty() || type == null) {
-            showAlert("Please fill in all fields.");
-            return;
-        }
-
-        double creditLimit;
         try {
-            creditLimit = Double.parseDouble(txtCreditLimit.getText().trim());
-        } catch (NumberFormatException e) {
-            showAlert("Invalid credit limit.");
-            return;
-        }
+            String CusId = generateCustomerId();
+            boolean isSaved = customerModel.saveCustomer(new Customer(
+                    CusId,
+                    txtFirstName.getText() + " " + txtLastName.getText(),
+                    txtContact.getText(),
+                    txtEmail.getText(),
+                    txtAddress.getText(),
+                    cmbCustomerType.getValue(),
+                    Double.parseDouble(txtCreditLimit.getText()),
+                    txtCreditPeriod.getText()
+            ));
+            if (isSaved) {
+                new Alert(Alert.AlertType.INFORMATION, "Customer Saved!").show();
+                loadCustomerTable();
+                clearFields();
+            }
 
-        String customerId = generateCustomerId();
-
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     "INSERT INTO Customer (CustomerId, Name, Contact, Email, Address, Type, CreditLimit, CreditPeriod) " +
-                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
-
-            statement.setString(1, customerId);
-            statement.setString(2, firstName + " " + lastName);
-            statement.setString(3, contact);
-            statement.setString(4, email);
-            statement.setString(5, address);
-            statement.setString(6, type);
-            statement.setDouble(7, creditLimit);
-            statement.setString(8, creditPeriod);
-
-            statement.executeUpdate();
-            refreshTable(); // Refresh the TableView after saving
-            clearFields();  // Clear the input fields
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace(); // Consider showing an error message to the user
-            showAlert("Error saving customer data."+ System.err);
+        } catch (SQLIntegrityConstraintViolationException ex) {
+            new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
         }
     }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
 
     public void SearBtnOnAction(ActionEvent actionEvent) throws SQLException {
-
+        // Implementation for search button action
     }
+
     private void clearFields() {
         txtFirstName.clear();
         txtLastName.clear();
