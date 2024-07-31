@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="AddCustomer" prefHeight="471.0" prefWidth="1102.0" style="-fx-background-color: rgba(41, 77, 79, 1.0);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddCustomerController">
+<AnchorPane fx:id="AddCustomer" prefHeight="634.0" prefWidth="1102.0" style="-fx-background-color: rgba(41, 77, 79, 1.0);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddCustomerController">
    <children>
       <Label alignment="CENTER" layoutX="321.0" layoutY="7.0" prefHeight="53.0" prefWidth="462.0" style="-fx-background-color: Black;" text="Customer" textFill="#63a5c6">
          <font>
@@ -69,12 +69,12 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Button>
-      <Button fx:id="btnSave" layoutX="566.0" layoutY="178.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="31.0" prefWidth="139.0" style="-fx-background-color: black;" text="Save" textFill="#f8f8f8">
+      <Button fx:id="btnSave" layoutX="601.0" layoutY="178.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="31.0" prefWidth="139.0" style="-fx-background-color: black;" text="Save" textFill="#f8f8f8">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <TableView fx:id="tblCustomer" layoutX="2.0" layoutY="229.0" prefHeight="200.0" prefWidth="1099.0">
+      <TableView fx:id="tblCustomer" layoutX="2.0" layoutY="229.0" prefHeight="383.0" prefWidth="1099.0">
          <columns>
             <TableColumn fx:id="cusId" prefWidth="74.0" text="Customer Id" />
             <TableColumn fx:id="name" prefWidth="107.0" text="Name" />
@@ -89,6 +89,11 @@
          </columns>
       </TableView>
 
-      <Button fx:id="SearBtn" layoutX="401.0" layoutY="178.0" mnemonicParsing="false" onAction="#SearBtnOnAction" prefHeight="31.0" prefWidth="132.0" style="-fx-background-color: black;" text="Search" textFill="WHITE" />
+      <Button fx:id="SearBtn" layoutX="438.0" layoutY="178.0" mnemonicParsing="false" onAction="#SearBtnOnAction" prefHeight="31.0" prefWidth="132.0" style="-fx-background-color: black;" text="Search" textFill="WHITE" />
+      <Button fx:id="btnUpdate" layoutX="764.0" layoutY="178.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="31.0" prefWidth="132.0" style="-fx-background-color: black;" text="Update" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

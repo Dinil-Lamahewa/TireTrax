@@ -1,6 +1,5 @@
 package dto.tm;
 
-import javafx.scene.control.Button;
 import lombok.*;
 
 import java.awt.*;
@@ -17,22 +16,13 @@ public class CustomerTm {
     private String Type ;
     private double CreditLimit ;
     private String CreditPeriod ;
-    private Button Edit;
+    private Button edit;
     private Button Delete;
 
+    public CustomerTm(String string, String string1, String string2, String string3, String string4, String string5, double aDouble, String string6, javafx.scene.control.Button ebtn, javafx.scene.control.Button dbtn) {
 
-//    public CustomerTm(String customerId, String name, String contact, String email, String address, String type, double creditLimit, String creditPeriod, Button edit, Button delete) {
-//        CustomerId = customerId;
-//        Name = name;
-//        Contact = contact;
-//        Email = email;
-//        Address = address;
-//        Type = type;
-//        CreditLimit = creditLimit;
-//        CreditPeriod = creditPeriod;
-//        this.edit = edit;
-//        Delete = delete;
-//    }
+    }
+
 
     @Override
     public String toString() {
@@ -45,7 +35,7 @@ public class CustomerTm {
                 ", Type='" + Type + '\'' +
                 ", CreditLimit=" + CreditLimit +
                 ", CreditPeriod='" + CreditPeriod + '\'' +
-                ", edit=" + Edit +
+                ", edit=" + edit +
                 ", Delete=" + Delete +
                 '}';
     }
