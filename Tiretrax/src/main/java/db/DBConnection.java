@@ -5,18 +5,25 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static DBConnection dbConnection;
+
+    private static DBConnection instance;
     private Connection connection;
+
     private DBConnection() throws SQLException, ClassNotFoundException {
+        // Initialize your database connection here
         Class.forName("com.mysql.cj.jdbc.Driver");
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tiretrax","root","1234");
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/TireTrax", "root", "1234");
     }
 
     public static DBConnection getInstance() throws SQLException, ClassNotFoundException {
-        return dbConnection != null ? dbConnection:(dbConnection=new DBConnection());
+        if (instance == null) {
+            instance = new DBConnection();
+        }
+        return instance;
     }
 
-    public Connection getConnection(){
+    public Connection getConnection() {
         return connection;
     }
 }
+

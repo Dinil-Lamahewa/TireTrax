@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="AddCustomer" prefHeight="760.0" prefWidth="1034.0" style="-fx-background-color: rgba(41, 77, 79, 1.0);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddCustomerController">
    <children>
       <Label alignment="CENTER" layoutX="263.0" layoutY="35.0" prefHeight="53.0" prefWidth="462.0" style="-fx-background-color: Black;" text="Customer" textFill="#63a5c6">
@@ -27,7 +26,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="661.0" layoutY="147.0" text="Address" textFill="WHITE">
+      <Label layoutX="649.0" layoutY="147.0" text="Address" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
@@ -52,41 +51,43 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="661.0" layoutY="215.0" text="Type" textFill="WHITE">
+      <Label layoutX="649.0" layoutY="219.0" text="Type" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
       <TextField fx:id="txtFirstName" layoutX="38.0" layoutY="184.0" />
       <TextField fx:id="txtLastName" layoutX="371.0" layoutY="184.0" />
-      <TextField fx:id="txtAddress" layoutX="648.0" layoutY="174.0" />
+      <TextField fx:id="txtAddress" layoutX="650.0" layoutY="184.0" />
       <TextField fx:id="txtContact" layoutX="38.0" layoutY="253.0" />
       <TextField fx:id="txtEmail" layoutX="362.0" layoutY="253.0" />
       <TextField fx:id="txtCreditLimit" layoutX="33.0" layoutY="342.0" />
       <TextField fx:id="txtCreditPeriod" layoutX="362.0" layoutY="342.0" />
-      <ComboBox fx:id="cmbCustomerType" layoutX="666.0" layoutY="253.0" prefWidth="150.0" />
+      <ComboBox fx:id="cmbCustomerType" layoutX="649.0" layoutY="253.0" prefWidth="150.0" />
       <Button fx:id="btnBack" defaultButton="true" layoutX="23.0" layoutY="16.0" mnemonicParsing="false" onAction="#btnBackOnAction" prefHeight="38.0" prefWidth="120.0" style="-fx-background-color: black;" text="Back" textFill="#fffdfd">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Button>
-      <Button fx:id="btnSave" layoutX="693.0" layoutY="401.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="31.0" prefWidth="139.0" style="-fx-background-color: black;" text="Save" textFill="#f8f8f8">
+      <Button fx:id="btnSave" layoutX="713.0" layoutY="401.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="31.0" prefWidth="139.0" style="-fx-background-color: black;" text="Save" textFill="#f8f8f8">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnUpdate" layoutX="850.0" layoutY="401.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="31.0" prefWidth="156.0" style="-fx-background-color: black;" text="Update" textFill="#f8f6f6" />
-      <TableView fx:id="tblCustomer" layoutX="32.0" layoutY="519.0" prefHeight="200.0" prefWidth="992.0">
-        <columns>
-          <TableColumn fx:id="cusId" prefWidth="104.0" text="Customer Id" />
-          <TableColumn fx:id="firstName" prefWidth="101.0" text="First Name" />
-            <TableColumn fx:id="lastName" prefWidth="96.0" text="Last Name" />
-            <TableColumn fx:id="contact" prefWidth="137.0" text="Contact Number" />
-            <TableColumn fx:id="email" prefWidth="120.0" text="E-mail" />
-            <TableColumn fx:id="type" prefWidth="85.0" text="Type" />
-            <TableColumn fx:id="creditLimit" prefWidth="171.0" text="Credit Limit" />
-            <TableColumn fx:id="creditPeriod" prefWidth="177.0" text="Credit Period" />
-        </columns>
+      <TableView fx:id="tblCustomer" layoutX="3.0" layoutY="518.0" prefHeight="200.0" prefWidth="1021.0">
+         <columns>
+            <TableColumn fx:id="cusId" prefWidth="74.0" text="Customer Id" />
+            <TableColumn fx:id="name" prefWidth="107.0" text="Name" />
+            <TableColumn fx:id="contact" prefWidth="122.0" text="Contact Number" />
+            <TableColumn fx:id="email" prefWidth="196.0" text="E-mail" />
+            <TableColumn fx:id="address" prefWidth="184.0" text="Address" />
+            <TableColumn fx:id="type" prefWidth="53.0" text="Type" />
+            <TableColumn fx:id="creditLimit" prefWidth="109.0" text="Credit Limit" />
+            <TableColumn fx:id="creditPeriod" prefWidth="112.0" text="Credit Period" />
+            <TableColumn fx:id="editColumn" prefWidth="63.0" text="Edit" />
+         </columns>
       </TableView>
+
+      <Button fx:id="SearBtn" layoutX="888.0" layoutY="401.0" mnemonicParsing="false" onAction="#SearBtnOnAction" prefHeight="31.0" prefWidth="132.0" style="-fx-background-color: black;" text="Search" textFill="WHITE" />
    </children>
 </AnchorPane>
