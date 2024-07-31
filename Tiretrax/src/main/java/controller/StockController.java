@@ -9,8 +9,13 @@ import dto.tm.StockTm;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 import java.sql.*;
 
@@ -44,8 +49,13 @@ private final model.StockModel stockModel = new StockModelImpl();
     public void initialize() {
 
     }
-    public void btnBackOnAction(ActionEvent actionEvent) {
-
+    public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) AddItem.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Home.fxml"))));
+        stage.centerOnScreen();
+        stage.setTitle("TireTrax - Add Item");
+        stage.setResizable(false);
+        stage.show();
     }
     private String generateItemId() throws SQLException, ClassNotFoundException {
         String customerId = null;
