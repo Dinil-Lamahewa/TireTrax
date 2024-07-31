@@ -5,7 +5,6 @@ import Model.impl.CustomerModelImpl;
 import db.DBConnection;
 import dto.Customer;
 import dto.tm.CustomerTm;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.Objects;
 
 public class AddCustomerController {
     public TextField txtFirstName;
@@ -43,8 +43,8 @@ public class AddCustomerController {
     public AnchorPane AddCustomer;
     public Button SearBtn;
     public TableColumn<CustomerTm, Void> DeleteColumn;
-    private CustomerModel customerModel = new CustomerModelImpl();
-    ObservableList<CustomerTm> customerData = FXCollections.observableArrayList();
+    private final CustomerModel customerModel = new CustomerModelImpl();
+
 
     public void initialize() {
         cusId.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
@@ -109,7 +109,7 @@ public class AddCustomerController {
 
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) AddCustomer.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/resources/View/Home.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/View/Home.fxml")))));
         stage.show();
     }
 

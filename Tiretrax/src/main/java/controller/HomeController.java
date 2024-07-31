@@ -8,31 +8,44 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class HomeController {
     public AnchorPane HomePane;
-    public Button btnAdmin;
-    public Button btnEmployee;
+    public Button btnAddItem;
+    public Button BtnPurchaseOrder;
+    public Button btnAddCustomer;
 
-    public void btnAdminOnAction(ActionEvent actionEvent) {
+    public void btnAddItemOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) HomePane.getScene().getWindow();
-        try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Login.fxml"))));
-            stage.setTitle("Admin Login");
-            stage.show();
-        } catch (IOException | ArrayIndexOutOfBoundsException e) {
-            throw new RuntimeException(e);
-        }
+        stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("View/Stock.fxml")))));
+        stage.centerOnScreen();
+        stage.setTitle("TireTrax - Add Item");
+        stage.setResizable(false);
+        stage.show();
     }
 
-    public void btnEmployeeOnAction(ActionEvent actionEvent) {
+    public void BtnPurchaseOrderOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) HomePane.getScene().getWindow();
-        try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Login.fxml"))));
-            stage.setTitle("Employee Login");
-            stage.show();
-        } catch (IOException | ArrayIndexOutOfBoundsException e) {
-            throw new RuntimeException(e);
+        stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("View/Invoice.fxml")))));
+        stage.centerOnScreen();
+        stage.setTitle("TireTrax - Purchase Order");
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    public void btnAddCustomerOnAction(ActionEvent actionEvent) throws IOException {
+        System.out.println("Attempting to load AddCustomer.fxml");
+        if (getClass().getResource("/../resources/View/AddCustomer.fxml") == null) {
+            System.err.println("AddCustomer.fxml not found!");
+        } else {
+            System.out.println("AddCustomer.fxml found!");
         }
+        Stage stage = (Stage) HomePane.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../resources/View/AddCustomer.fxml")))));
+        stage.centerOnScreen();
+        stage.setTitle("TireTrax - Add Customer");
+        stage.setResizable(false);
+        stage.show();
     }
 }

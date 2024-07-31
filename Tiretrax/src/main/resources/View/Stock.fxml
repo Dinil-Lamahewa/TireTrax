@@ -1,14 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.StockController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane fx:id="AddItem" prefHeight="471.0" prefWidth="1102.0" style="-fx-background-color: rgba(41, 77, 79, 1.0);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StockController">
+   <children>
+      <Label alignment="CENTER" layoutX="321.0" layoutY="7.0" prefHeight="53.0" prefWidth="462.0" style="-fx-background-color: Black;" text="ITEM" textFill="#63a5c6">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="95.0" text="Item Name" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="233.0" layoutY="95.0" text="Category" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="406.0" layoutY="95.0" text="Company" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="569.0" layoutY="96.0" text="Purchurse Qty" textFill="#f2f0f0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="740.0" layoutY="96.0" text="Expired Date" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="38.0" layoutY="151.0" text="Purchurse Date" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="230.0" layoutY="151.0" text="Purchurse Price" textFill="#fffdfd">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="905.0" layoutY="96.0" text="Selling Unit Price" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtItemName" layoutX="38.0" layoutY="122.0" />
+      <TextField fx:id="txtCategory" layoutX="233.0" layoutY="122.0" />
+      <TextField fx:id="txtCompany" layoutX="402.0" layoutY="122.0" />
+      <TextField fx:id="txtPurchurseQty" layoutX="569.0" layoutY="122.0" />
+      <TextField fx:id="txtExpiredDate" layoutX="740.0" layoutY="122.0" />
+      <TextField fx:id="txtPurchurseDate" layoutX="39.0" layoutY="181.0" />
+      <TextField fx:id="txtPurchursePrice" layoutX="230.0" layoutY="181.0" />
+      <Button fx:id="btnBack" defaultButton="true" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnBackOnAction" prefHeight="31.0" prefWidth="86.0" style="-fx-background-color: black;" text="Back" textFill="#fffdfd">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnSave" layoutX="566.0" layoutY="178.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="31.0" prefWidth="139.0" style="-fx-background-color: black;" text="Save" textFill="#f8f8f8">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <TableView fx:id="tblCustomer" layoutX="19.0" layoutY="229.0" prefHeight="200.0" prefWidth="1067.0">
+         <columns>
+            <TableColumn fx:id="itemCode" prefWidth="74.0" text="Item Code" />
+            <TableColumn fx:id="itemname" prefWidth="107.0" text="Item Name" />
+            <TableColumn fx:id="category" prefWidth="122.0" text="Category" />
+            <TableColumn fx:id="company" prefWidth="134.0" text="Company" />
+            <TableColumn fx:id="purchurseqty" prefWidth="92.0" text="Purchurse Qty" />
+            <TableColumn fx:id="expireddate" prefWidth="106.0" text="Expirderd Date" />
+            <TableColumn fx:id="sellingunitprice" prefWidth="108.0" text="Selling Unit Price" />
+            <TableColumn fx:id="purchursedate" prefWidth="101.0" text="Purchurse Date" />
+            <TableColumn fx:id="purchurseprice" prefWidth="107.0" text="Purchurse Price" />
+            <TableColumn fx:id="edit" minWidth="7.0" prefWidth="57.0" text="Edit" />
+            <TableColumn fx:id="delete" prefWidth="58.0" text="Delete" />
+         </columns>
+      </TableView>
+      <Button fx:id="SearBtn" layoutX="401.0" layoutY="178.0" mnemonicParsing="false" onAction="#SearBtnOnAction" prefHeight="31.0" prefWidth="132.0" style="-fx-background-color: black;" text="Search" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Button>
+      <TextField fx:id="txtSellingUnitPrice" layoutX="905.0" layoutY="122.0" />
+   </children>
 </AnchorPane>
