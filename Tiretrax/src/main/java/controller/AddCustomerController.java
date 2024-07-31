@@ -1,7 +1,4 @@
 package controller;
-
-import Model.CustomerModel;
-import Model.impl.CustomerModelImpl;
 import db.DBConnection;
 import dto.Customer;
 import dto.tm.CustomerTm;
@@ -14,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.CustomerModel;
+import model.impl.CustomerModelImpl;
 
 import java.io.IOException;
 import java.sql.*;
@@ -44,7 +43,8 @@ public class AddCustomerController {
     public Button SearBtn;
     public TableColumn<CustomerTm, Void> DeleteColumn;
     private final CustomerModel customerModel = new CustomerModelImpl();
-
+    public Button btnUpdate;
+    private String updateCusID;
 
     public void initialize() {
         cusId.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
@@ -59,6 +59,7 @@ public class AddCustomerController {
         DeleteColumn.setCellValueFactory(new PropertyValueFactory<>("Delete"));
         cmbCustomerType.setItems(FXCollections.observableArrayList("Regular", "On-time"));
         loadCustomerTable();
+        updateButtonStates();
 //        tblCustomer.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldValue, newValue) ->{
 //            setData((CustomerTm)newValue);
 //        } ));
@@ -88,6 +89,20 @@ public class AddCustomerController {
         txtCreditLimit.setText(String.valueOf(customer.getCreditLimit()));
         txtCreditPeriod.setText(customer.getCreditPeriod());
         cmbCustomerType.setValue(customer.getType());
+        updateButtonStates();
+    }
+    private void updateButtonStates() {
+        boolean fieldsFilled = !txtFirstName.getText().isEmpty()
+                && !txtLastName.getText().isEmpty()
+                && !txtAddress.getText().isEmpty()
+                && !txtContact.getText().isEmpty()
+                && !txtEmail.getText().isEmpty()
+                && !txtCreditLimit.getText().isEmpty()
+                && !txtCreditPeriod.getText().isEmpty()
+                && cmbCustomerType.getValue() != null;
+
+        btnSave.setDisable(fieldsFilled );
+        btnUpdate.setDisable(!fieldsFilled || updateCusID == null);
     }
 
     private String generateCustomerId() throws SQLException, ClassNotFoundException {
@@ -103,13 +118,15 @@ public class AddCustomerController {
         } else {
             customerId = "CS00001";
         }
-
         return customerId;
     }
 
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) AddCustomer.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/View/Home.fxml")))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Home.fxml"))));
+        stage.centerOnScreen();
+        stage.setTitle("TireTrax - Add Item");
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -122,9 +139,10 @@ public class AddCustomerController {
             Statement stm = DBConnection.getInstance().getConnection().createStatement();
             ResultSet result = stm.executeQuery(sql);
 
+            System.out.println(result.toString());
             while (result.next()) {
-                Button Ebtn = new Button("Edit");
-                Button Dbtn = new Button("Delete");
+               Button btnEdit = new Button("Edit");
+               Button btnDelete = new Button("Delete");
 
                 CustomerTm tm = new CustomerTm(
                         result.getString(1),
@@ -135,10 +153,10 @@ public class AddCustomerController {
                         result.getString(6),
                         result.getDouble(7),
                         result.getString(8),
-                        Ebtn,
-                        Dbtn
+                        btnEdit,
+                        btnDelete
                 );
-
+                System.out.println(result.getString(1));
                 Customer customer = new Customer(
                         result.getString(1),
                         result.getString(2),
@@ -150,10 +168,9 @@ public class AddCustomerController {
                         result.getString(8)
                 );
 
-                Dbtn.setOnAction(actionEvent -> deleteCustomer(tm.getCustomerId()));
-
-                Ebtn.setOnAction(event -> loadCustomerData(customer));
-
+                btnDelete.setOnAction(actionEvent -> deleteCustomer(tm.getCustomerId()));
+                btnEdit.setOnAction(event -> loadCustomerData(customer));
+                updateCusID = tm.getCustomerId();
                 tmList.add(tm);
             }
 
@@ -173,7 +190,6 @@ public class AddCustomerController {
             } else {
                 new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
             }
-
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -197,7 +213,6 @@ public class AddCustomerController {
                 loadCustomerTable();
                 clearFields();
             }
-
         } catch (SQLIntegrityConstraintViolationException ex) {
             new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
         } catch (ClassNotFoundException | SQLException e) {
@@ -205,8 +220,9 @@ public class AddCustomerController {
         }
     }
 
-    public void SearBtnOnAction(ActionEvent actionEvent) throws SQLException {
-        // Implementation for search button action
+    public void SearBtnOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        ResultSet result = customerModel.getCustomerByContact(txtContact.getText());
+        System.out.println(result);
     }
 
     private void clearFields() {
@@ -218,5 +234,29 @@ public class AddCustomerController {
         txtCreditLimit.clear();
         txtCreditPeriod.clear();
         cmbCustomerType.setValue(null);
+    }
+
+    public void btnUpdateOnAction(ActionEvent actionEvent) {
+        try{
+        boolean isUpdate = customerModel.updateCustomer(new Customer(
+                updateCusID,
+                txtFirstName.getText() + " " + txtLastName.getText(),
+                txtContact.getText(),
+                txtEmail.getText(),
+                txtAddress.getText(),
+                cmbCustomerType.getValue(),
+                Double.parseDouble(txtCreditLimit.getText()),
+                txtCreditPeriod.getText()
+        ));
+        if (isUpdate) {
+            new Alert(Alert.AlertType.INFORMATION, "Customer Update!").show();
+            loadCustomerTable();
+            clearFields();
+        }
+    } catch (SQLIntegrityConstraintViolationException ex) {
+        new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
+    } catch (ClassNotFoundException | SQLException e) {
+        e.printStackTrace();
+    };
     }
 }
