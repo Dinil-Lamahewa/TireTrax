@@ -156,7 +156,7 @@ public class AddCustomerController {
                         btnEdit,
                         btnDelete
                 );
-
+                System.out.println(result.getString(1));
                 Customer customer = new Customer(
                         result.getString(1),
                         result.getString(2),
