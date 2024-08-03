@@ -29,8 +29,23 @@ public class StockModelImpl implements StockModel {
     }
 
     @Override
-    public boolean updateStock(Stock stock) {
-        return false;
+    public boolean updateStock(Stock stock) throws SQLException, ClassNotFoundException {
+
+        String sql ="UPDATE Stock SET Name=? , Category = ?, Company = ?,  PurchaseQty = ?, InStockQty = ?, ExpiredDate = ?, SellingUnitPrice = ?, PurchaseDate=?, PurchasePrice=? WHERE ItemCode=?";
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql);
+
+        preparedStatement.setString(1, stock.getName());
+        preparedStatement.setString(2, stock.getCategory());
+        preparedStatement.setString(3, stock.getCompany());
+        preparedStatement.setInt(4, Integer.parseInt(stock.getPurchaseQty()));
+        preparedStatement.setInt(5, 0);
+        preparedStatement.setDate(6, (Date) stock.getExpiredDate());
+        preparedStatement.setDouble(7, Double.parseDouble((stock.getSellingUnitPrice())));
+        preparedStatement.setDate(8, (Date) stock.getPurchaseDate());
+        preparedStatement.setDouble(9, Double.parseDouble((stock.getPurchasePrice())));
+        preparedStatement.setString(10, stock.getItemCode());
+
+        return preparedStatement.executeUpdate()>0;
     }
 
     @Override
