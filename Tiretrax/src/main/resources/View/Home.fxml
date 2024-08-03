@@ -1,14 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controller.HomeController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane fx:id="HomePane" prefHeight="636.0" prefWidth="885.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomeController">
+   <children>
+      <ImageView fitHeight="379.0" fitWidth="544.0" layoutX="246.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/DKtire.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="318.0" layoutY="28.0" text="DK Tire Works" textFill="WHITE">
+         <font>
+            <Font size="64.0" />
+         </font>
+      </Label>
+      <Label layoutX="313.0" layoutY="121.0" text="Premium Luxury Tires for your life style" textFill="#659cae">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnAddItem" layoutX="323.0" layoutY="557.0" mnemonicParsing="false" onAction="#btnAddItemOnAction" prefHeight="51.0" prefWidth="239.0" style="-fx-background-color: #424246;" text="ADD ITEM" textFill="#52c2d6">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="BtnPurchaseOrder" layoutX="605.0" layoutY="557.0" mnemonicParsing="false" onAction="#BtnPurchaseOrderOnAction" prefHeight="51.0" prefWidth="256.0" style="-fx-background-color: #3d494b;" text="PURCHURSE ORDER" textFill="#52c2d6">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnAddCustomer" layoutX="38.0" layoutY="557.0" mnemonicParsing="false" onAction="#btnAddCustomerOnAction" prefHeight="51.0" prefWidth="239.0" style="-fx-background-color: #424246;" text="ADD CUSTOMER" textFill="#52c2d6">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+   </children>
 </AnchorPane>

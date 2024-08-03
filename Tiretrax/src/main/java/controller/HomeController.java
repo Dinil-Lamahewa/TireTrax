@@ -1,0 +1,45 @@
+package controller;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Objects;
+
+public class HomeController {
+    public AnchorPane HomePane;
+    public Button btnAddItem;
+    public Button BtnPurchaseOrder;
+    public Button btnAddCustomer;
+
+    public void btnAddItemOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) HomePane.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Stock.fxml"))));
+        stage.centerOnScreen();
+        stage.setTitle("TireTrax - Add Item");
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    public void BtnPurchaseOrderOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) HomePane.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/Invoice.fxml"))));
+        stage.centerOnScreen();
+        stage.setTitle("TireTrax - Purchase Order");
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    public void btnAddCustomerOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) HomePane.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"))));
+        stage.centerOnScreen();
+        stage.setTitle("TireTrax - Add Customer");
+        stage.setResizable(false);
+        stage.show();
+    }
+}
