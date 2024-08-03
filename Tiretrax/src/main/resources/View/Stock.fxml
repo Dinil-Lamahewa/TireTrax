@@ -93,5 +93,15 @@
       <TextField fx:id="txtSellingUnitPrice" layoutX="905.0" layoutY="122.0" />
       <DatePicker fx:id="Dayepurchursedate" layoutX="38.0" layoutY="181.0" prefHeight="25.0" prefWidth="149.0" />
       <DatePicker fx:id="DateExpired" layoutX="740.0" layoutY="122.0" prefHeight="25.0" prefWidth="139.0" />
+      <Button fx:id="Updatebtn" layoutX="740.0" layoutY="178.0" mnemonicParsing="false" onAction="#UpdatebtnOnAction" prefHeight="31.0" prefWidth="132.0" style="-fx-background-color: Black;" text="Update" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="ResetBtn" layoutX="905.0" layoutY="179.0" mnemonicParsing="false" onAction="#ResetBtnOnAction" prefHeight="30.0" prefWidth="121.0" style="-fx-background-color: Black;" text="Reset" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

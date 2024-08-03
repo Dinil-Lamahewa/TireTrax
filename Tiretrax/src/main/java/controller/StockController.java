@@ -36,6 +36,8 @@ public class StockController {
     public Button SearBtn;
     public TextField txtSellingUnitPrice;
     public DatePicker DateExpired;
+    public Button Updatebtn;
+    public Button ResetBtn;
     private StockModel stockModel = new StockModelImpl();
     public DatePicker Dayepurchursedate;
     public TableView<StockTm> tblCustomer;
@@ -212,5 +214,13 @@ public class StockController {
 
     public void SearBtnOnAction(ActionEvent actionEvent) {
 
+    }
+
+    public void UpdatebtnOnAction(ActionEvent actionEvent) {
+    }
+
+    public void ResetBtnOnAction(ActionEvent actionEvent) {
+        clearFields();
+        loadCustomerTable();
     }
 }
