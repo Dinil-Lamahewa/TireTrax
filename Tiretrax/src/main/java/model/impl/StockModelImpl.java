@@ -1,8 +1,8 @@
 package Model.impl;
 
+import Model.StockModel;
 import db.DBConnection;
 import dto.Stock;
-import model.StockModel;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -19,7 +19,7 @@ public class StockModelImpl implements StockModel {
         preparedStatement.setString(3, stock.getCategory());
         preparedStatement.setString(4, stock.getCompany());
         preparedStatement.setInt(5, Integer.parseInt(stock.getPurchaseQty()));
-        preparedStatement.setString(6, "");
+        preparedStatement.setInt(6, 0);
         preparedStatement.setDate(7, (Date) stock.getExpiredDate());
         preparedStatement.setDouble(8, Double.parseDouble((stock.getSellingUnitPrice())));
         preparedStatement.setDate(9, (Date) stock.getPurchaseDate());

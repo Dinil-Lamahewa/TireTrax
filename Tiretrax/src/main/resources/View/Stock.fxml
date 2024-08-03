@@ -92,6 +92,6 @@
          </font></Button>
       <TextField fx:id="txtSellingUnitPrice" layoutX="905.0" layoutY="122.0" />
       <DatePicker fx:id="Dayepurchursedate" layoutX="38.0" layoutY="181.0" prefHeight="25.0" prefWidth="149.0" />
-      <DatePicker fx:id="DateExpiredte" layoutX="740.0" layoutY="122.0" prefHeight="25.0" prefWidth="139.0" />
+      <DatePicker fx:id="DateExpired" layoutX="740.0" layoutY="122.0" prefHeight="25.0" prefWidth="139.0" />
    </children>
 </AnchorPane>
