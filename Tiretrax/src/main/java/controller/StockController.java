@@ -45,6 +45,8 @@ public class StockController {
     public Button SearBtn;
     public TextField txtSellingUnitPrice;
 private final model.StockModel stockModel = new StockModelImpl();
+    public DatePicker DateExpiredte;
+    public DatePicker Dayepurchursedate;
 
     public void initialize() {
 
@@ -75,6 +77,7 @@ private final model.StockModel stockModel = new StockModelImpl();
     }
     public void btnSaveOnAction(ActionEvent actionEvent) {
         try {
+            new Alert(Alert.AlertType.WARNING,"This Function Not Supported to Your Computer Please Contact Maintenance Team").show();
             String ItemCode = generateItemId();
             boolean isSaved = stockModel.saveStock(new Stock(
                     ItemCode,
@@ -82,9 +85,9 @@ private final model.StockModel stockModel = new StockModelImpl();
                     txtCategory.getText(),
                     txtCompany.getText(),
                     txtPurchurseQty.getText(),
-                    txtExpiredDate.getText(),
+                    Date.valueOf(txtExpiredDate.getText()),
                     txtSellingUnitPrice.getText(),
-                    txtPurchurseDate.getText(),
+                    Date.valueOf(txtPurchurseDate.getText()),
                     txtPurchursePrice.getText()
 
             ));
@@ -98,6 +101,7 @@ private final model.StockModel stockModel = new StockModelImpl();
             new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+            new Alert(Alert.AlertType.WARNING,"This Function Not Supported to Your Computer Please Contact Maintenance Team").show();
         }
     }
 
@@ -143,9 +147,9 @@ private final model.StockModel stockModel = new StockModelImpl();
                         result.getString(3),
                         result.getString(4),
                         result.getString(5),
-                        result.getString(6),
+                        result.getDate(6),
                         result.getString(7),
-                        result.getString(8),
+                        result.getDate(8),
                         result.getString(9)
                 );
 
@@ -182,10 +186,10 @@ private final model.StockModel stockModel = new StockModelImpl();
         txtItemName.setText(stock.getName());
         txtCategory.setText(stock.getCategory());
         txtCompany.setText(stock.getCompany());
-        txtExpiredDate.setText(stock.getExpiredDate());
+        txtExpiredDate.setText(String.valueOf(stock.getExpiredDate()));
         txtPurchurseQty.setText(stock.getPurchaseQty());
         txtSellingUnitPrice.setText(stock.getSellingUnitPrice());
-        txtPurchurseDate.setText(stock.getPurchaseDate());
+        txtPurchurseDate.setText(String.valueOf(stock.getPurchaseDate()));
         txtPurchursePrice.setText(stock.getPurchasePrice());
     }
 

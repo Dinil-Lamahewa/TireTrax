@@ -1,6 +1,10 @@
 package dto.tm;
 
 import javafx.scene.control.Button;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 @AllArgsConstructor
