@@ -17,6 +17,7 @@ public class StockTm {
     private String Category ;
     private String Company ;
     private String  PurchaseQty ;
+    private String InStockQty;
     private String  ExpiredDate ;
     private String SellingUnitPrice ;
     private String PurchaseDate ;

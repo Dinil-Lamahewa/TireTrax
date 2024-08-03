@@ -1,7 +1,7 @@
 package controller;
 
 import Model.StockModel;
-import Model.impl.StockModelImpl;
+import model.impl.StockModelImpl;
 import db.DBConnection;
 import dto.Customer;
 import dto.Stock;
@@ -38,6 +38,7 @@ public class StockController {
     public DatePicker DateExpired;
     public Button Updatebtn;
     public Button ResetBtn;
+    public TableColumn colInStockQty;
     private StockModel stockModel = new StockModelImpl();
     public DatePicker Dayepurchursedate;
     public TableView<StockTm> tblCustomer;
@@ -59,6 +60,7 @@ public class StockController {
         category.setCellValueFactory(new PropertyValueFactory<>("Category"));
         company.setCellValueFactory(new PropertyValueFactory<>("Company"));
         purchurseqty.setCellValueFactory(new PropertyValueFactory<>("PurchaseQty"));
+        colInStockQty.setCellValueFactory(new PropertyValueFactory<>("InStockQty"));
         expireddate.setCellValueFactory(new PropertyValueFactory<>("ExpiredDate"));
         sellingunitprice.setCellValueFactory(new PropertyValueFactory<>("SellingUnitPrice"));
         purchursedate.setCellValueFactory(new PropertyValueFactory<>("PurchaseDate"));
@@ -69,7 +71,7 @@ public class StockController {
     }
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) AddItem.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Home.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/EmployeeDashBoard.fxml"))));
         stage.centerOnScreen();
         stage.setTitle("TireTrax - Add Item");
         stage.setResizable(false);
@@ -156,24 +158,26 @@ public class StockController {
                         result.getString(7),
                         result.getString(8),
                         result.getString(9),
+                        result.getString(10),
                         Ebtn,
                         Dbtn
                 );
+
                 Stock stock = new Stock(
                         result.getString(1),
                         result.getString(2),
                         result.getString(3),
                         result.getString(4),
                         result.getString(5),
-                        result.getDate(6),
-                        result.getString(7),
-                        result.getDate(8),
-                        result.getString(9)
+                        result.getDate(7),
+                        result.getString(8),
+                        result.getDate(9),
+                        result.getString(10)
                 );
 
                 Dbtn.setOnAction(actionEvent -> deleteCustomer(tm.getItemCode()));
 
-                Ebtn.setOnAction(event -> loadCustomerData(stock));
+               Ebtn.setOnAction(event -> loadCustomerData(stock));
 
                 tmList.add(tm);
             }
