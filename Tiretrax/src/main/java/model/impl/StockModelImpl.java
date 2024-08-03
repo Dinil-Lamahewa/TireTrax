@@ -1,4 +1,4 @@
-package Model.impl;
+package model.impl;
 
 import Model.StockModel;
 import db.DBConnection;
@@ -36,7 +36,7 @@ public class StockModelImpl implements StockModel {
     @Override
     public boolean deleteStock(String id) throws SQLException, ClassNotFoundException {
 
-        String sql ="DELETE FROM Customer WHERE CustomerId=?";
+        String sql ="DELETE FROM Stock WHERE ItemCode=?";
         PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql);
 
         preparedStatement.setString(1,id);

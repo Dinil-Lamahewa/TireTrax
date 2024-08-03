@@ -127,7 +127,7 @@ public class AddCustomerController {
         Stage stage = (Stage) AddCustomer.getScene().getWindow();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Home.fxml"))));
         stage.centerOnScreen();
-        stage.setTitle("TireTrax - Add Item");
+        stage.setTitle("TireTrax");
         stage.setResizable(false);
         stage.show();
     }
@@ -141,7 +141,6 @@ public class AddCustomerController {
             Statement stm = DBConnection.getInstance().getConnection().createStatement();
             ResultSet result = stm.executeQuery(sql);
 
-            System.out.println(result.toString());
             while (result.next()) {
                Button btnEdit = new Button("Edit");
                Button btnDelete = new Button("Delete");
@@ -177,7 +176,6 @@ public class AddCustomerController {
             }
 
             tblCustomer.setItems(tmList);
-
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
