@@ -125,7 +125,7 @@ public class AddCustomerController {
 
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) AddCustomer.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Home.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/EmployeeDashBoard.fxml"))));
         stage.centerOnScreen();
         stage.setTitle("TireTrax");
         stage.setResizable(false);

@@ -71,7 +71,7 @@ public class StockController {
     }
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) AddItem.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Home.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/EmployeeDashBoard.fxml"))));
         stage.centerOnScreen();
         stage.setTitle("TireTrax - Add Item");
         stage.setResizable(false);

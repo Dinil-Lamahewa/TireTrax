@@ -18,28 +18,21 @@ public class HomeController {
 
     public void btnAddItemOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) HomePane.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Stock.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/Login.fxml"))));
         stage.centerOnScreen();
-        stage.setTitle("TireTrax - Add Item");
+        stage.setTitle("TireTrax - Login");
         stage.setResizable(false);
         stage.show();
     }
 
     public void BtnPurchaseOrderOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) HomePane.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/Invoice.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/Login.fxml"))));
         stage.centerOnScreen();
-        stage.setTitle("TireTrax - Purchase Order");
+        stage.setTitle("TireTrax - Login");
         stage.setResizable(false);
         stage.show();
     }
 
-    public void btnAddCustomerOnAction(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) HomePane.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"))));
-        stage.centerOnScreen();
-        stage.setTitle("TireTrax - Add Customer");
-        stage.setResizable(false);
-        stage.show();
-    }
+
 }
