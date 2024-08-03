@@ -1,4 +1,6 @@
 package controller;
+import Model.CustomerModel;
+import Model.impl.CustomerModelImpl;
 import db.DBConnection;
 import dto.Customer;
 import dto.tm.CustomerTm;
@@ -9,10 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.CustomerModel;
-import model.impl.CustomerModelImpl;
 
 import java.io.IOException;
 import java.sql.*;
@@ -44,6 +45,7 @@ public class AddCustomerController {
     public TableColumn<CustomerTm, Void> DeleteColumn;
     private final CustomerModel customerModel = new CustomerModelImpl();
     public Button btnUpdate;
+    public Button btnreset;
     private String updateCusID;
 
     public void initialize() {
@@ -197,8 +199,24 @@ public class AddCustomerController {
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
         try {
+            txtCreditPeriod.setVisible(true);
+            txtCreditLimit.setVisible(true);
+            String Cmb=cmbCustomerType.getValue();
             String CusId = generateCustomerId();
-            boolean isSaved = customerModel.saveCustomer(new Customer(
+            boolean isSaved = false;
+            if(Cmb.equals("On-time")){
+                isSaved = customerModel.saveCustomer(new Customer(
+                        CusId,
+                        txtFirstName.getText() + " " + txtLastName.getText(),
+                        txtContact.getText(),
+                        txtEmail.getText(),
+                        txtAddress.getText(),
+                        cmbCustomerType.getValue(),
+                        0,
+                        ""
+                ));
+            }else{
+             isSaved = customerModel.saveCustomer(new Customer(
                     CusId,
                     txtFirstName.getText() + " " + txtLastName.getText(),
                     txtContact.getText(),
@@ -208,6 +226,7 @@ public class AddCustomerController {
                     Double.parseDouble(txtCreditLimit.getText()),
                     txtCreditPeriod.getText()
             ));
+             }
             if (isSaved) {
                 new Alert(Alert.AlertType.INFORMATION, "Customer Saved!").show();
                 loadCustomerTable();
@@ -238,16 +257,31 @@ public class AddCustomerController {
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
         try{
-        boolean isUpdate = customerModel.updateCustomer(new Customer(
-                updateCusID,
-                txtFirstName.getText() + " " + txtLastName.getText(),
-                txtContact.getText(),
-                txtEmail.getText(),
-                txtAddress.getText(),
-                cmbCustomerType.getValue(),
-                Double.parseDouble(txtCreditLimit.getText()),
-                txtCreditPeriod.getText()
-        ));
+            boolean isUpdate=false;
+            String Cmb=cmbCustomerType.getValue();
+            if(Cmb.equals("On-time")) {
+                isUpdate = customerModel.updateCustomer(new Customer(
+                        updateCusID,
+                        txtFirstName.getText() + " " + txtLastName.getText(),
+                        txtContact.getText(),
+                        txtEmail.getText(),
+                        txtAddress.getText(),
+                        cmbCustomerType.getValue(),
+                       0,
+                        ""
+                ));
+            }else{
+                isUpdate = customerModel.updateCustomer(new Customer(
+                        updateCusID,
+                        txtFirstName.getText() + " " + txtLastName.getText(),
+                        txtContact.getText(),
+                        txtEmail.getText(),
+                        txtAddress.getText(),
+                        cmbCustomerType.getValue(),
+                        Double.parseDouble(txtCreditLimit.getText()),
+                        txtCreditPeriod.getText()
+                ));
+            }
         if (isUpdate) {
             new Alert(Alert.AlertType.INFORMATION, "Customer Update!").show();
             loadCustomerTable();
@@ -258,5 +292,28 @@ public class AddCustomerController {
     } catch (ClassNotFoundException | SQLException e) {
         e.printStackTrace();
     };
+    }
+
+
+    public void btnresetOnAction(ActionEvent actionEvent) {
+        clearFields();
+        loadCustomerTable();
+        btnUpdate.setDisable(true);
+        btnSave.setDisable(false);
+    }
+
+
+
+    public void cmbCustomerTypeOnAction(ActionEvent actionEvent) {
+       String Cmb=cmbCustomerType.getValue();
+
+       if (Cmb.equals("On-time")){
+
+           txtCreditPeriod.setVisible(false);
+           txtCreditLimit.setVisible(false);
+       }else{
+           txtCreditPeriod.setVisible(true);
+           txtCreditLimit.setVisible(true);
+       }
     }
 }

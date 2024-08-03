@@ -16,8 +16,8 @@ public class Stock {
     private  String Category ;
     private String Company ;
     private String PurchaseQty ;
-    private String ExpiredDate ;
+    private Date ExpiredDate ;
     private String SellingUnitPrice ;
-    private String PurchaseDate ;
+    private Date PurchaseDate ;
     private String PurchasePrice ;
 }

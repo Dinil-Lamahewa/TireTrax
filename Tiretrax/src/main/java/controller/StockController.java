@@ -1,5 +1,6 @@
 package controller;
 
+import Model.StockModel;
 import Model.impl.StockModelImpl;
 import db.DBConnection;
 import dto.Customer;
@@ -12,12 +13,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 public class StockController {
     public AnchorPane AddItem;
@@ -30,6 +33,13 @@ public class StockController {
     public TextField txtPurchursePrice;
     public Button btnBack;
     public Button btnSave;
+    public Button SearBtn;
+    public TextField txtSellingUnitPrice;
+    public DatePicker DateExpired;
+    public Button Updatebtn;
+    public Button ResetBtn;
+    private StockModel stockModel = new StockModelImpl();
+    public DatePicker Dayepurchursedate;
     public TableView<StockTm> tblCustomer;
     public TableColumn<StockTm, String> itemCode;
     public TableColumn<StockTm, String> itemname;
@@ -42,12 +52,20 @@ public class StockController {
     public TableColumn<StockTm, String> purchurseprice;
     public TableColumn<StockTm, String> edit;
     public TableColumn<StockTm, String> delete;
-    public Button SearBtn;
-    public TextField txtSellingUnitPrice;
-private final model.StockModel stockModel = new StockModelImpl();
 
     public void initialize() {
-
+        itemCode.setCellValueFactory(new PropertyValueFactory<>("ItemCode"));
+        itemname.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        category.setCellValueFactory(new PropertyValueFactory<>("Category"));
+        company.setCellValueFactory(new PropertyValueFactory<>("Company"));
+        purchurseqty.setCellValueFactory(new PropertyValueFactory<>("PurchaseQty"));
+        expireddate.setCellValueFactory(new PropertyValueFactory<>("ExpiredDate"));
+        sellingunitprice.setCellValueFactory(new PropertyValueFactory<>("SellingUnitPrice"));
+        purchursedate.setCellValueFactory(new PropertyValueFactory<>("PurchaseDate"));
+        purchurseprice.setCellValueFactory(new PropertyValueFactory<>("PurchasePrice"));
+        edit.setCellValueFactory(new PropertyValueFactory<>("Edit"));
+        delete.setCellValueFactory(new PropertyValueFactory<>("Delete"));
+        loadCustomerTable();
     }
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) AddItem.getScene().getWindow();
@@ -75,6 +93,8 @@ private final model.StockModel stockModel = new StockModelImpl();
     }
     public void btnSaveOnAction(ActionEvent actionEvent) {
         try {
+
+            //new Alert(Alert.AlertType.WARNING,"This Function Not Supported to Your Computer Please Contact Maintenance Team").show();
             String ItemCode = generateItemId();
             boolean isSaved = stockModel.saveStock(new Stock(
                     ItemCode,
@@ -82,9 +102,9 @@ private final model.StockModel stockModel = new StockModelImpl();
                     txtCategory.getText(),
                     txtCompany.getText(),
                     txtPurchurseQty.getText(),
-                    txtExpiredDate.getText(),
+                    Date.valueOf(DateExpired.getValue()),
                     txtSellingUnitPrice.getText(),
-                    txtPurchurseDate.getText(),
+                    Date.valueOf(Dayepurchursedate.getValue()),
                     txtPurchursePrice.getText()
 
             ));
@@ -98,6 +118,7 @@ private final model.StockModel stockModel = new StockModelImpl();
             new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+            new Alert(Alert.AlertType.WARNING,"There is a some issue in this system, Please Contact Maintenance Team").show();
         }
     }
 
@@ -105,11 +126,12 @@ private final model.StockModel stockModel = new StockModelImpl();
         txtItemName.setText("");
         txtCategory.setText("");
         txtCompany.setText("");
-        txtExpiredDate.setText("");
+        txtPurchursePrice.setText("");
         txtPurchurseQty.setText("");
         txtSellingUnitPrice.setText("");
-        txtPurchurseDate.setText("");
-        txtPurchursePrice.setText("");
+        DateExpired.setValue(null);
+        Dayepurchursedate.setValue(null);
+
     }
 
     private void loadCustomerTable() {
@@ -143,9 +165,9 @@ private final model.StockModel stockModel = new StockModelImpl();
                         result.getString(3),
                         result.getString(4),
                         result.getString(5),
-                        result.getString(6),
+                        result.getDate(6),
                         result.getString(7),
-                        result.getString(8),
+                        result.getDate(8),
                         result.getString(9)
                 );
 
@@ -182,15 +204,23 @@ private final model.StockModel stockModel = new StockModelImpl();
         txtItemName.setText(stock.getName());
         txtCategory.setText(stock.getCategory());
         txtCompany.setText(stock.getCompany());
-        txtExpiredDate.setText(stock.getExpiredDate());
+        DateExpired.setValue(LocalDate.parse(String.valueOf(stock.getExpiredDate())));
         txtPurchurseQty.setText(stock.getPurchaseQty());
         txtSellingUnitPrice.setText(stock.getSellingUnitPrice());
-        txtPurchurseDate.setText(stock.getPurchaseDate());
+        Dayepurchursedate.setValue(LocalDate.parse(String.valueOf(stock.getPurchaseDate())));
         txtPurchursePrice.setText(stock.getPurchasePrice());
     }
 
 
     public void SearBtnOnAction(ActionEvent actionEvent) {
 
+    }
+
+    public void UpdatebtnOnAction(ActionEvent actionEvent) {
+    }
+
+    public void ResetBtnOnAction(ActionEvent actionEvent) {
+        clearFields();
+        loadCustomerTable();
     }
 }
