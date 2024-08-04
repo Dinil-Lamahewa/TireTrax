@@ -1,5 +1,8 @@
 package controller;
 
+import dto.Customer;
+import dto.InvoiceDetails;
+import dto.InvoiceMaster;
 import dto.tm.InvoiceItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,11 +17,11 @@ import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import db.DBConnection;
+import model.InvoiceModel;
+import model.impl.InvoiceModelImpl;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class InvoiceController {
 
@@ -56,7 +59,7 @@ public class InvoiceController {
     public Button BackBtn;
 
     private ObservableList<InvoiceItem> invoiceItems;
-
+    private final InvoiceModel invoiceModel = new InvoiceModelImpl();
     public void initialize() throws SQLException, ClassNotFoundException {
         String id = genereateInvoNo();
         InvoId.setText(id);
@@ -169,7 +172,36 @@ public class InvoiceController {
 
 
     public void PrintIdbtnOnAction(ActionEvent actionEvent) {
-        // Your code for printing the invoice
+        try{
+        Boolean  isSaved= invoiceModel.saveInvoice(new InvoiceMaster(
+                InvoId.getText(),
+                CustomerId.getValue(),
+                Date.valueOf(DateAndTimeId.getValue()),
+                RemraksId.getText(),
+                Double.valueOf( GrossAmountId.getText()),
+                Integer.parseInt(vatRateId.getText()),
+                Double.valueOf(NetAmountId.getText()),
+                1
+
+
+        ),new InvoiceDetails(
+
+        ));
+
+            if (isSaved) {
+        new Alert(Alert.AlertType.INFORMATION, "Customer Saved!").show();
+
+        clearFields();
+            }
+        } catch (
+        SQLIntegrityConstraintViolationException ex) {
+                new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
+                } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+                }
+    }
+
+    private void clearFields() {
     }
 
     public void ReturnPOOnAction(ActionEvent actionEvent) {

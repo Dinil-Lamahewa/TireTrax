@@ -11,7 +11,6 @@ import lombok.ToString;
 @ToString
 public class InvoiceDetails {
     private String InvoNumber;
-    private int Seq;
     private String ItemCode;
     private int Qty;
     private double PoPrice;
