@@ -1,6 +1,5 @@
 package controller;
-import Model.CustomerModel;
-import Model.impl.CustomerModelImpl;
+
 import db.DBConnection;
 import dto.Customer;
 import dto.tm.CustomerTm;
@@ -11,15 +10,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.Objects;
 
-public class AddCustomerController {
+public class EmployeeAddCustomerController {
     public TextField txtFirstName;
     public TextField txtLastName;
     public TextField txtAddress;
@@ -43,7 +40,7 @@ public class AddCustomerController {
     public AnchorPane AddCustomer;
     public Button SearBtn;
     public TableColumn<CustomerTm, Void> DeleteColumn;
-    private final CustomerModel customerModel = new CustomerModelImpl();
+    private final Model.CustomerModel customerModel = new Model.impl.CustomerModelImpl();
     public Button btnUpdate;
     public Button btnreset;
     private String updateCusID;
@@ -59,7 +56,7 @@ public class AddCustomerController {
         creditPeriod.setCellValueFactory(new PropertyValueFactory<>("CreditPeriod"));
         editColumn.setCellValueFactory(new PropertyValueFactory<>("edit"));
         DeleteColumn.setCellValueFactory(new PropertyValueFactory<>("Delete"));
-        cmbCustomerType.setItems(FXCollections.observableArrayList("Regular", "On-time"));
+      //  cmbCustomerType.setItems(FXCollections.observableArrayList("Regular", "On-time"));
         loadCustomerTable();
         updateButtonStates();
 //        tblCustomer.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldValue, newValue) ->{
@@ -125,7 +122,7 @@ public class AddCustomerController {
 
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) AddCustomer.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/AdminDashBoard.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/EmployeeDashBoard.fxml"))));
         stage.centerOnScreen();
         stage.setTitle("TireTrax");
         stage.setResizable(false);
@@ -142,8 +139,8 @@ public class AddCustomerController {
             ResultSet result = stm.executeQuery(sql);
 
             while (result.next()) {
-               Button btnEdit = new Button("Edit");
-               Button btnDelete = new Button("Delete");
+                Button btnEdit = new Button("Edit");
+                Button btnDelete = new Button("Delete");
 
                 CustomerTm tm = new CustomerTm(
                         result.getString(1),
@@ -214,17 +211,17 @@ public class AddCustomerController {
                         ""
                 ));
             }else{
-             isSaved = customerModel.saveCustomer(new Customer(
-                    CusId,
-                    txtFirstName.getText() + " " + txtLastName.getText(),
-                    txtContact.getText(),
-                    txtEmail.getText(),
-                    txtAddress.getText(),
-                    cmbCustomerType.getValue(),
-                    Double.parseDouble(txtCreditLimit.getText()),
-                    txtCreditPeriod.getText()
-            ));
-             }
+                isSaved = customerModel.saveCustomer(new Customer(
+                        CusId,
+                        txtFirstName.getText() + " " + txtLastName.getText(),
+                        txtContact.getText(),
+                        txtEmail.getText(),
+                        txtAddress.getText(),
+                        cmbCustomerType.getValue(),
+                        Double.parseDouble(txtCreditLimit.getText()),
+                        txtCreditPeriod.getText()
+                ));
+            }
             if (isSaved) {
                 new Alert(Alert.AlertType.INFORMATION, "Customer Saved!").show();
                 loadCustomerTable();
@@ -265,7 +262,7 @@ public class AddCustomerController {
                         txtEmail.getText(),
                         txtAddress.getText(),
                         cmbCustomerType.getValue(),
-                       0,
+                        0,
                         ""
                 ));
             }else{
@@ -280,16 +277,16 @@ public class AddCustomerController {
                         txtCreditPeriod.getText()
                 ));
             }
-        if (isUpdate) {
-            new Alert(Alert.AlertType.INFORMATION, "Customer Update!").show();
-            loadCustomerTable();
-            clearFields();
-        }
-    } catch (SQLIntegrityConstraintViolationException ex) {
-        new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
-    } catch (ClassNotFoundException | SQLException e) {
-        e.printStackTrace();
-    };
+            if (isUpdate) {
+                new Alert(Alert.AlertType.INFORMATION, "Customer Update!").show();
+                loadCustomerTable();
+                clearFields();
+            }
+        } catch (SQLIntegrityConstraintViolationException ex) {
+            new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        };
     }
 
 
@@ -303,19 +300,19 @@ public class AddCustomerController {
 
 
     public void cmbCustomerTypeOnAction(ActionEvent actionEvent) {
-       String Cmb=cmbCustomerType.getValue();
+        String Cmb=cmbCustomerType.getValue();
 
-       if (Cmb.equals("On-time")){
+        if (Cmb.equals("On-time")){
 
-           txtCreditPeriod.setVisible(false);
-           txtCreditLimit.setVisible(false);
-       }else{
-           txtCreditPeriod.setVisible(true);
-           txtCreditLimit.setVisible(true);
-       }
+            txtCreditPeriod.setVisible(false);
+            txtCreditLimit.setVisible(false);
+        }else{
+            txtCreditPeriod.setVisible(true);
+            txtCreditLimit.setVisible(true);
+        }
     }
 
-    public void EmployeeSearchBtnOnAction(ActionEvent actionEvent) {
-
-    }
+//    public void EmployeeSearchBtnOnAction(ActionEvent actionEvent) {
+//
+//    }
 }
