@@ -19,7 +19,6 @@ public class InvoiceController {
     public TableColumn TotalPriceTblId;
     public Button PrintId;
     public Button ReturnPoId;
-    public CheckBox ReturnId;
 
     public void PrintIdbtnOnAction(ActionEvent actionEvent) {
     }
@@ -27,6 +26,4 @@ public class InvoiceController {
     public void ReturnPOOnAction(ActionEvent actionEvent) {
     }
 
-    public void ReturnIdOnAction(ActionEvent actionEvent) {
-    }
 }
