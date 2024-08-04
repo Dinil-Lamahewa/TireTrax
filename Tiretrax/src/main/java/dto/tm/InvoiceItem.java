@@ -19,7 +19,7 @@ public class InvoiceItem {
         this.quantity = new SimpleIntegerProperty(1);
         this.totalPrice = new SimpleDoubleProperty(unitPrice);
 
-        // Update total price when unit price or quantity changes
+
         this.unitPrice.addListener((obs, oldVal, newVal) -> updateTotalPrice());
         this.quantity.addListener((obs, oldVal, newVal) -> updateTotalPrice());
     }

@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.ReturnPOController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="515.0" prefWidth="771.0" style="-fx-background-color: rgba(41, 77, 79, 1.0);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.InvoiceController">
+   <children>
+      <Label layoutX="45.0" layoutY="80.0" prefHeight="25.0" prefWidth="94.0" text="InvoiceNUmber" textFill="WHITE" />
+      <Label layoutX="344.0" layoutY="92.0" text="Customer Name" textFill="WHITE" />
+      <Label layoutX="41.0" layoutY="385.0" text="Remarks" textFill="WHITE" />
+      <Label layoutX="551.0" layoutY="92.0" text="Date And Time" textFill="WHITE" />
+      <DatePicker fx:id="DateAndTimeBox" layoutX="551.0" layoutY="131.0" prefHeight="25.0" prefWidth="173.0" />
+      <TextArea fx:id="RemraksId" layoutX="41.0" layoutY="410.0" prefHeight="84.0" prefWidth="260.0" />
+      <TableView fx:id="CartTblId" layoutX="45.0" layoutY="175.0" prefHeight="200.0" prefWidth="681.0">
+         <columns>
+            <TableColumn fx:id="ItemNameTblId" prefWidth="325.0" text="Item Name" />
+            <TableColumn fx:id="QtyTblId" minWidth="0.0" prefWidth="121.0" text="Qty" />
+            <TableColumn fx:id="UnitPriceTblId" prefWidth="115.0" text="Unit Price" />
+            <TableColumn fx:id="TotalPriceTblId" prefWidth="118.0" text="Total Price" />
+         </columns>
+      </TableView>
+      <Button fx:id="ConfirmReturn" layoutX="526.0" layoutY="440.0" mnemonicParsing="false" onAction="#ConfirmReturnOnAction" prefHeight="25.0" prefWidth="104.0" text="Confirm Return" />
+      <Button fx:id="ReturnPoId" layoutX="438.0" layoutY="440.0" mnemonicParsing="false" onAction="#ReturnPOOnAction" prefHeight="25.0" prefWidth="76.0" text="Return Po" />
+      <Button fx:id="BackBtn" layoutX="700.0" layoutY="6.0" mnemonicParsing="false" onAction="#BackBtnOnACTION" prefHeight="19.0" prefWidth="63.0" style="-fx-background-color: black;" text="Back" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <Label layoutX="299.0" layoutY="18.0" prefHeight="35.0" prefWidth="173.0" style="-fx-background-color: black;" text="     Return PO" textAlignment="JUSTIFY" textFill="#6dfdff">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="CustomerNameLbl" layoutX="344.0" layoutY="127.0" prefHeight="25.0" prefWidth="151.0" text="Label" textFill="WHITE" />
+      <TextField fx:id="InvoiceNumberTxt" layoutX="45.0" layoutY="119.0" />
+      <Button fx:id="SearchBtn" layoutX="222.0" layoutY="119.0" mnemonicParsing="false" onAction="#SearchBtnOnAction" text="Search" />
+      <TextField fx:id="Otp" layoutX="526.0" layoutY="469.0" onAction="#OtpOnAction" promptText="OTP" />
+   </children>
 </AnchorPane>
