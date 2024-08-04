@@ -11,13 +11,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.Objects;
 
 public class AddCustomerController {
     public TextField txtFirstName;
@@ -200,30 +198,34 @@ public class AddCustomerController {
             txtCreditLimit.setVisible(true);
             String Cmb=cmbCustomerType.getValue();
             String CusId = generateCustomerId();
+
+            boolean isValidData = validateData(txtContact.getText(),txtEmail.getText());
             boolean isSaved = false;
-            if(Cmb.equals("On-time")){
-                isSaved = customerModel.saveCustomer(new Customer(
-                        CusId,
-                        txtFirstName.getText() + " " + txtLastName.getText(),
-                        txtContact.getText(),
-                        txtEmail.getText(),
-                        txtAddress.getText(),
-                        cmbCustomerType.getValue(),
-                        0,
-                        ""
-                ));
-            }else{
-             isSaved = customerModel.saveCustomer(new Customer(
-                    CusId,
-                    txtFirstName.getText() + " " + txtLastName.getText(),
-                    txtContact.getText(),
-                    txtEmail.getText(),
-                    txtAddress.getText(),
-                    cmbCustomerType.getValue(),
-                    Double.parseDouble(txtCreditLimit.getText()),
-                    txtCreditPeriod.getText()
-            ));
-             }
+            if(isValidData) {
+                if (Cmb.equals("On-time")) {
+                    isSaved = customerModel.saveCustomer(new Customer(
+                            CusId,
+                            txtFirstName.getText() + " " + txtLastName.getText(),
+                            txtContact.getText(),
+                            txtEmail.getText(),
+                            txtAddress.getText(),
+                            cmbCustomerType.getValue(),
+                            0,
+                            ""
+                    ));
+                } else {
+                    isSaved = customerModel.saveCustomer(new Customer(
+                            CusId,
+                            txtFirstName.getText() + " " + txtLastName.getText(),
+                            txtContact.getText(),
+                            txtEmail.getText(),
+                            txtAddress.getText(),
+                            cmbCustomerType.getValue(),
+                            Double.parseDouble(txtCreditLimit.getText()),
+                            txtCreditPeriod.getText()
+                    ));
+                }
+            }
             if (isSaved) {
                 new Alert(Alert.AlertType.INFORMATION, "Customer Saved!").show();
                 loadCustomerTable();
@@ -255,36 +257,39 @@ public class AddCustomerController {
         try{
             boolean isUpdate=false;
             String Cmb=cmbCustomerType.getValue();
-            if(Cmb.equals("On-time")) {
-                isUpdate = customerModel.updateCustomer(new Customer(
-                        updateCusID,
-                        txtFirstName.getText() + " " + txtLastName.getText(),
-                        txtContact.getText(),
-                        txtEmail.getText(),
-                        txtAddress.getText(),
-                        cmbCustomerType.getValue(),
-                       0,
-                        ""
-                ));
-            }else{
-                isUpdate = customerModel.updateCustomer(new Customer(
-                        updateCusID,
-                        txtFirstName.getText() + " " + txtLastName.getText(),
-                        txtContact.getText(),
-                        txtEmail.getText(),
-                        txtAddress.getText(),
-                        cmbCustomerType.getValue(),
-                        Double.parseDouble(txtCreditLimit.getText()),
-                        txtCreditPeriod.getText()
-                ));
-            }
-            if (isUpdate) {
-                new Alert(Alert.AlertType.INFORMATION, "Customer Update!").show();
-                loadCustomerTable();
-                clearFields();
-            }else{
-                new Alert(Alert.AlertType.INFORMATION, "Something went wrong!").show();
-                clearFields();
+            boolean isValidData = validateData(txtContact.getText(),txtEmail.getText());
+            if(isValidData){
+                if(Cmb.equals("On-time")) {
+                    isUpdate = customerModel.updateCustomer(new Customer(
+                            updateCusID,
+                            txtFirstName.getText() + " " + txtLastName.getText(),
+                            txtContact.getText(),
+                            txtEmail.getText(),
+                            txtAddress.getText(),
+                            cmbCustomerType.getValue(),
+                           0,
+                            ""
+                    ));
+                }else{
+                    isUpdate = customerModel.updateCustomer(new Customer(
+                            updateCusID,
+                            txtFirstName.getText() + " " + txtLastName.getText(),
+                            txtContact.getText(),
+                            txtEmail.getText(),
+                            txtAddress.getText(),
+                            cmbCustomerType.getValue(),
+                            Double.parseDouble(txtCreditLimit.getText()),
+                            txtCreditPeriod.getText()
+                    ));
+                }
+                if (isUpdate) {
+                    new Alert(Alert.AlertType.INFORMATION, "Customer Update!").show();
+                    loadCustomerTable();
+                    clearFields();
+                }else{
+                    new Alert(Alert.AlertType.INFORMATION, "Something went wrong!").show();
+                    clearFields();
+                }
             }
         } catch (SQLIntegrityConstraintViolationException ex) {
             new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
@@ -316,6 +321,16 @@ public class AddCustomerController {
        }
     }
 
+    private boolean validateData(String contact, String email){
+        if (!contact.matches("^0\\d{9}$")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid Contact Number").show();
+            return false;
+        } else if (!email.matches("^[\\w\\.-]+@[\\w\\.-]+\\.com$")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid email").show();
+            return false;
+        }
+        return true;
+    }
     public void EmployeeSearchBtnOnAction(ActionEvent actionEvent) {
 
     }

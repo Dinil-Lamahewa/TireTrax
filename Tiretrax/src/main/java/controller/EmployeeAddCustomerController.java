@@ -173,6 +173,8 @@ public class EmployeeAddCustomerController {
     public void btnSaveOnAction(ActionEvent actionEvent) {
         try {
             String CusId = generateCustomerId();
+            boolean isValidData = validateData(txtContact.getText(),txtEmail.getText());
+            if(isValidData){
             boolean isSaved = customerModel.saveCustomer(new Customer(
                     CusId,
                     txtFirstName.getText() + " " + txtLastName.getText(),
@@ -184,10 +186,13 @@ public class EmployeeAddCustomerController {
                     ""
             ));
 
-            if (isSaved) {
-                new Alert(Alert.AlertType.INFORMATION, "Customer Saved!").show();
-                loadCustomerTable();
-                clearFields();
+                if (isSaved) {
+                    new Alert(Alert.AlertType.INFORMATION, "Customer Saved!").show();
+                    loadCustomerTable();
+                    clearFields();
+                }else {
+                    new Alert(Alert.AlertType.INFORMATION, "Something went wrong!").show();
+                }
             }
         } catch (SQLIntegrityConstraintViolationException ex) {
             new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
@@ -211,6 +216,8 @@ public class EmployeeAddCustomerController {
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
         try{
+            boolean isValidData = validateData(txtContact.getText(),txtEmail.getText());
+            if(isValidData){
             boolean isUpdate = customerModel.employeeUpdateCustomer(
                     new EmployeeUpdateCustomer(
                             updateCusID,
@@ -220,10 +227,13 @@ public class EmployeeAddCustomerController {
                             txtAddress.getText()
                     ));
 
-            if (isUpdate) {
-                new Alert(Alert.AlertType.INFORMATION, "Customer Update!").show();
-                loadCustomerTable();
-                clearFields();
+                if (isUpdate) {
+                    new Alert(Alert.AlertType.INFORMATION, "Customer Update!").show();
+                    loadCustomerTable();
+                    clearFields();
+                }else {
+                    new Alert(Alert.AlertType.INFORMATION, "Something went wrong!").show();
+                }
             }
         } catch (SQLIntegrityConstraintViolationException ex) {
             new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
@@ -237,5 +247,16 @@ public class EmployeeAddCustomerController {
         loadCustomerTable();
         btnUpdate.setDisable(true);
         btnSave.setDisable(false);
+    }
+
+    private boolean validateData(String contact, String email){
+        if (!contact.matches("^0\\d{9}$")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid Contact Number").show();
+            return false;
+        } else if (!email.matches("^[\\w\\.-]+@[\\w\\.-]+\\.com$")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid email").show();
+            return false;
+        }
+        return true;
     }
 }
