@@ -46,6 +46,8 @@ public class AddCustomerController {
     private final CustomerModel customerModel = new CustomerModelImpl();
     public Button btnUpdate;
     public Button btnreset;
+    public Label lblCreditPeriod;
+    public Label lblcreditLimit;
     private String updateCusID;
 
     public void initialize() {
@@ -81,7 +83,7 @@ public class AddCustomerController {
 //        }
 //    }
 
-    private void loadCustomerData(Customer customer) {
+    private void loadCustomerData(Customer customer, String customerID) {
         String[] nameParts = customer.getName().split(" ", 2);
         txtFirstName.setText(nameParts.length > 0 ? nameParts[0] : "");
         txtLastName.setText(nameParts.length > 1 ? nameParts[1] : "");
@@ -92,19 +94,17 @@ public class AddCustomerController {
         txtCreditPeriod.setText(customer.getCreditPeriod());
         cmbCustomerType.setValue(customer.getType());
         updateButtonStates();
+        updateCusID = customerID;
     }
     private void updateButtonStates() {
         boolean fieldsFilled = !txtFirstName.getText().isEmpty()
                 && !txtLastName.getText().isEmpty()
                 && !txtAddress.getText().isEmpty()
                 && !txtContact.getText().isEmpty()
-                && !txtEmail.getText().isEmpty()
-                && !txtCreditLimit.getText().isEmpty()
-                && !txtCreditPeriod.getText().isEmpty()
-                && cmbCustomerType.getValue() != null;
+                && !txtEmail.getText().isEmpty();
 
         btnSave.setDisable(fieldsFilled );
-        btnUpdate.setDisable(!fieldsFilled || updateCusID == null);
+        btnUpdate.setDisable(!fieldsFilled);
     }
 
     private String generateCustomerId() throws SQLException, ClassNotFoundException {
@@ -170,8 +170,7 @@ public class AddCustomerController {
                 );
 
                 btnDelete.setOnAction(actionEvent -> deleteCustomer(tm.getCustomerId()));
-                btnEdit.setOnAction(event -> loadCustomerData(customer));
-                updateCusID = tm.getCustomerId();
+                btnEdit.setOnAction(event -> loadCustomerData(customer , tm.getCustomerId() ));
                 tmList.add(tm);
             }
 
@@ -250,7 +249,6 @@ public class AddCustomerController {
         txtEmail.clear();
         txtCreditLimit.clear();
         txtCreditPeriod.clear();
-        cmbCustomerType.setValue(null);
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
@@ -280,18 +278,20 @@ public class AddCustomerController {
                         txtCreditPeriod.getText()
                 ));
             }
-        if (isUpdate) {
-            new Alert(Alert.AlertType.INFORMATION, "Customer Update!").show();
-            loadCustomerTable();
-            clearFields();
-        }
-    } catch (SQLIntegrityConstraintViolationException ex) {
-        new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
-    } catch (ClassNotFoundException | SQLException e) {
-        e.printStackTrace();
-    };
+            if (isUpdate) {
+                new Alert(Alert.AlertType.INFORMATION, "Customer Update!").show();
+                loadCustomerTable();
+                clearFields();
+            }else{
+                new Alert(Alert.AlertType.INFORMATION, "Something went wrong!").show();
+                clearFields();
+            }
+        } catch (SQLIntegrityConstraintViolationException ex) {
+            new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        };
     }
-
 
     public void btnresetOnAction(ActionEvent actionEvent) {
         clearFields();
@@ -300,18 +300,19 @@ public class AddCustomerController {
         btnSave.setDisable(false);
     }
 
-
-
     public void cmbCustomerTypeOnAction(ActionEvent actionEvent) {
        String Cmb=cmbCustomerType.getValue();
 
        if (Cmb.equals("On-time")){
-
            txtCreditPeriod.setVisible(false);
            txtCreditLimit.setVisible(false);
+           lblCreditPeriod.setVisible(false);
+           lblcreditLimit.setVisible(false);
        }else{
            txtCreditPeriod.setVisible(true);
            txtCreditLimit.setVisible(true);
+           lblCreditPeriod.setVisible(true);
+           lblcreditLimit.setVisible(true);
        }
     }
 
