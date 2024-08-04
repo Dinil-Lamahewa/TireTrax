@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -88,8 +89,19 @@ public class LoginController {
         Stage stage = (Stage) loginPane.getScene().getWindow();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Home.fxml"))));
         stage.centerOnScreen();
-        stage.setTitle("TireTrax");
+        stage.setTitle("Welcome to the Tyre TraxHome");
         stage.setResizable(false);
         stage.show();
     }
+
+
+    public void BtnResignOnAction(ActionEvent actionEvent) {
+    }
+
+    public void BtnSignInOnAction(ActionEvent actionEvent) {
+    }
+
+    public void ForgertPasswordOnAction(MouseEvent mouseEvent) {
+    }
+
 }
