@@ -3,6 +3,7 @@ package Model.impl;
 import Model.CustomerModel;
 import db.DBConnection;
 import dto.Customer;
+import dto.EmployeeUpdateCustomer;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -65,5 +66,19 @@ public class CustomerModelImpl implements CustomerModel {
     @Override
     public List<Customer> allCustomers() {
         return null;
+    }
+
+    @Override
+    public boolean employeeUpdateCustomer(EmployeeUpdateCustomer customer) throws SQLException, ClassNotFoundException {
+        String sql ="UPDATE Customer SET Name=? , Contact = ?, Email = ?, Address = ? WHERE CustomerId=?";
+        PreparedStatement preparedStatement = DBConnection.getInstance().getConnection().prepareStatement(sql);
+
+        preparedStatement.setString(1, customer.getName());
+        preparedStatement.setString(2, customer.getContact());
+        preparedStatement.setString(3, customer.getEmail());
+        preparedStatement.setString(4, customer.getAddress());
+        preparedStatement.setString(5, customer.getCustomerId());
+
+        return preparedStatement.executeUpdate()>0;
     }
 }
