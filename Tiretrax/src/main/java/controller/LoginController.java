@@ -14,10 +14,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class LoginController {
     public AnchorPane loginPane;
@@ -33,8 +37,6 @@ public class LoginController {
 
         if (authenticatedUser != null) {
             if (authenticatedUser.getJobRole() == 0) {
-                // Redirect to admin dashboard
-//                redirectToDashboard("/view/AdminDashboard.fxml", "Admin Dashboard");
                 Stage stage = (Stage) loginPane.getScene().getWindow();
                 stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/EmployeeDashBoard.fxml"))));
                 stage.centerOnScreen();
@@ -42,8 +44,6 @@ public class LoginController {
                 stage.setResizable(false);
                 stage.show();
             } else if (authenticatedUser.getJobRole() == 1) {
-                // Redirect to employee dashboard
-//                redirectToDashboard("/view/EmployeeDashboard.fxml", "Employee Dashboard");
                 Stage stage = (Stage) loginPane.getScene().getWindow();
                 stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/AdminDashBoard.fxml"))));
                 stage.centerOnScreen();
@@ -95,13 +95,59 @@ public class LoginController {
     }
 
 
-    public void BtnResignOnAction(ActionEvent actionEvent) {
+    public void BtnResignOnAction(ActionEvent actionEvent) throws MessagingException {
+        String receiveEmail = "ranasingheyuwani@gmail.com";
+        sendEmail(receiveEmail);
     }
 
     public void BtnSignInOnAction(ActionEvent actionEvent) {
     }
 
-    public void ForgertPasswordOnAction(MouseEvent mouseEvent) {
+    public void ForgertPasswordOnAction(MouseEvent mouseEvent) throws MessagingException {
+
     }
 
+    private void sendEmail(String receiveEmail) throws MessagingException {
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth","true");
+        properties.put("mail.smtp.starttls.enable","true");
+        properties.put("mail.smtp.host","smtp.gmail.com");
+        properties.put("mail.smtp.port","587");
+
+        String sendEmail = "yuwaniranasinghe@gmail.com";
+        String password = "ykdt tjht cjdk htvu";
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(sendEmail,password);
+            }
+        });
+        Message message = prepareMessage(session,sendEmail,receiveEmail,"Hii" );
+        if(message!=null){
+            new Alert(Alert.AlertType.INFORMATION,"SEND EMAIL").show();
+        }else {
+            new Alert(Alert.AlertType.INFORMATION,"Try again").show();
+        }
+
+        Transport.send(message);
+    }
+
+    private  Message prepareMessage(Session session, String sendEmail, String receiveEmail,String otp){
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(sendEmail));
+            message.setRecipients(Message.RecipientType.TO, new InternetAddress[]{
+                    new InternetAddress(receiveEmail)
+            });
+
+            message.setSubject("Message");
+            message.setText(otp);
+
+            return message;
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
