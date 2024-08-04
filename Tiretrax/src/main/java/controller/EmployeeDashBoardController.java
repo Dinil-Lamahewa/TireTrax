@@ -17,16 +17,16 @@ public class EmployeeDashBoardController {
         Stage stage = (Stage) btnOrder.getScene().getWindow();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Home.fxml"))));
         stage.centerOnScreen();
-        stage.setTitle("TireTrax");
+        stage.setTitle("Home");
         stage.setResizable(false);
         stage.show();
     }
 
     public void CustomerbtnOnAction(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) btnOrder.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"))));
+        Stage stage = (Stage) btnCustomer.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/EmployeeAddCustomer.fxml"))));
         stage.centerOnScreen();
-        stage.setTitle("TireTrax");
+        stage.setTitle("Employee Add Customer");
         stage.setResizable(false);
         stage.show();
     }
@@ -36,7 +36,7 @@ public class EmployeeDashBoardController {
         Stage stage = (Stage) btnOrder.getScene().getWindow();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Stock.fxml"))));
         stage.centerOnScreen();
-        stage.setTitle("TireTrax");
+        stage.setTitle("Employee Stock");
         stage.setResizable(false);
         stage.show();
     }
@@ -45,7 +45,7 @@ public class EmployeeDashBoardController {
         Stage stage = (Stage) btnOrder.getScene().getWindow();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Invoice.fxml"))));
         stage.centerOnScreen();
-        stage.setTitle("TireTrax");
+        stage.setTitle("Invoice");
         stage.setResizable(false);
         stage.show();
     }

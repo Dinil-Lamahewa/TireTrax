@@ -18,18 +18,18 @@ public class HomeController {
 
     public void btnAddItemOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) HomePane.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/Login.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/AdminDashBoard.fxml"))));
         stage.centerOnScreen();
-        stage.setTitle("TireTrax - Login");
+        stage.setTitle("Admin - Login");
         stage.setResizable(false);
         stage.show();
     }
 
     public void BtnPurchaseOrderOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) HomePane.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/Login.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/EmployeeDashBoard.fxml"))));
         stage.centerOnScreen();
-        stage.setTitle("TireTrax - Login");
+        stage.setTitle("Employee - Login");
         stage.setResizable(false);
         stage.show();
     }

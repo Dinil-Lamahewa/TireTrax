@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -9,19 +8,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="AddCustomer" prefHeight="634.0" prefWidth="1102.0" style="-fx-background-color: rgba(41, 77, 79, 1.0);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddCustomerController">
+<AnchorPane fx:id="AddCustomer" prefHeight="634.0" prefWidth="1102.0" style="-fx-background-color: rgba(41, 77, 79, 1.0);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EmployeeAddCustomerController">
    <children>
       <Label alignment="CENTER" layoutX="321.0" layoutY="7.0" prefHeight="53.0" prefWidth="462.0" style="-fx-background-color: Black;" text="Customer" textFill="#63a5c6">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Label layoutX="40.0" layoutY="95.0" text="First Name" textFill="WHITE">
+      <Label layoutX="45.0" layoutY="95.0" text="First Name" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="233.0" layoutY="95.0" text="Last Name" textFill="WHITE">
+      <Label layoutX="225.0" layoutY="95.0" text="Last Name" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
@@ -31,45 +30,27 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="569.0" layoutY="96.0" text="Contact Number" textFill="#f2f0f0">
+      <Label layoutX="583.0" layoutY="95.0" text="Contact Number" textFill="#f2f0f0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="740.0" layoutY="96.0" text="E mail" textFill="WHITE">
+      <Label layoutX="764.0" layoutY="95.0" text="E mail" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="38.0" layoutY="151.0" text="Credit Limit" textFill="WHITE">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="230.0" layoutY="151.0" text="Credit Period" textFill="#fffdfd">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="905.0" layoutY="96.0" text="Type" textFill="WHITE">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtFirstName" layoutX="38.0" layoutY="122.0" />
-      <TextField fx:id="txtLastName" layoutX="233.0" layoutY="122.0" />
-      <TextField fx:id="txtAddress" layoutX="402.0" layoutY="122.0" />
-      <TextField fx:id="txtContact" layoutX="569.0" layoutY="122.0" />
-      <TextField fx:id="txtEmail" layoutX="740.0" layoutY="122.0" />
-      <TextField fx:id="txtCreditLimit" layoutX="39.0" layoutY="181.0" />
-      <TextField fx:id="txtCreditPeriod" layoutX="230.0" layoutY="181.0" />
-      <ComboBox fx:id="cmbCustomerType" layoutX="905.0" layoutY="122.0" onAction="#cmbCustomerTypeOnAction" prefWidth="150.0" />
+      <TextField fx:id="txtFirstName" layoutX="45.0" layoutY="122.0" />
+      <TextField fx:id="txtLastName" layoutX="225.0" layoutY="122.0" />
+      <TextField fx:id="txtAddress" layoutX="406.0" layoutY="122.0" />
+      <TextField fx:id="txtContact" layoutX="583.0" layoutY="122.0" />
+      <TextField fx:id="txtEmail" layoutX="764.0" layoutY="122.0" />
       <Button fx:id="btnBack" defaultButton="true" layoutX="1002.0" layoutY="15.0" mnemonicParsing="false" onAction="#btnBackOnAction" prefHeight="31.0" prefWidth="86.0" style="-fx-background-color: black;" text="Back" textFill="#fffdfd">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Button>
-      <Button fx:id="btnSave" layoutX="601.0" layoutY="178.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="31.0" prefWidth="139.0" style="-fx-background-color: black;" text="Save" textFill="#f8f8f8">
+      <Button fx:id="btnSave" layoutX="233.0" layoutY="178.0" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="31.0" prefWidth="139.0" style="-fx-background-color: black;" text="Save" textFill="#f8f8f8">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -89,13 +70,13 @@
          </columns>
       </TableView>
 
-      <Button fx:id="SearBtn" layoutX="438.0" layoutY="178.0" mnemonicParsing="false" onAction="#SearBtnOnAction" prefHeight="31.0" prefWidth="132.0" style="-fx-background-color: black;" text="Search" textFill="WHITE" />
-      <Button fx:id="btnUpdate" layoutX="764.0" layoutY="178.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="31.0" prefWidth="132.0" style="-fx-background-color: black;" text="Update" textFill="WHITE">
+      <Button fx:id="SearBtn" layoutX="40.0" layoutY="178.0" mnemonicParsing="false" onAction="#SearBtnOnAction" prefHeight="31.0" prefWidth="132.0" style="-fx-background-color: black;" text="Search" textFill="WHITE" />
+      <Button fx:id="btnUpdate" layoutX="404.0" layoutY="178.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="31.0" prefWidth="132.0" style="-fx-background-color: black;" text="Update" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnreset" layoutX="925.0" layoutY="178.0" mnemonicParsing="false" onAction="#btnresetOnAction" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: black;" text="Reset" textFill="WHITE">
+      <Button fx:id="btnreset" layoutX="583.0" layoutY="178.0" mnemonicParsing="false" onAction="#btnresetOnAction" prefHeight="31.0" prefWidth="105.0" style="-fx-background-color: black;" text="Reset" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
