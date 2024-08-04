@@ -49,6 +49,7 @@ public class AdminStockController {
     public TableColumn<StockTm, String> purchurseprice;
     public TableColumn<StockTm, String> edit;
     public TableColumn<StockTm, String> delete;
+    public String updateItemCode;
 
     public void initialize() {
         itemCode.setCellValueFactory(new PropertyValueFactory<>("ItemCode"));
@@ -64,6 +65,18 @@ public class AdminStockController {
         edit.setCellValueFactory(new PropertyValueFactory<>("Edit"));
         delete.setCellValueFactory(new PropertyValueFactory<>("Delete"));
         loadCustomerTable();
+        updateButtonStates();
+    }
+
+    private void updateButtonStates() {
+        boolean fieldsFilled = !txtItemName.getText().isEmpty()
+                && !txtCategory.getText().isEmpty()
+                && !txtPurchurseQty.getText().isEmpty()
+                && !txtPurchursePrice.getText().isEmpty()
+                && !txtSellingUnitPrice.getText().isEmpty();
+
+        btnSave.setDisable(fieldsFilled );
+        Updatebtn.setDisable(!fieldsFilled);
     }
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) AddItem.getScene().getWindow();
@@ -91,8 +104,6 @@ public class AdminStockController {
     }
     public void btnSaveOnAction(ActionEvent actionEvent) {
         try {
-
-            //new Alert(Alert.AlertType.WARNING,"This Function Not Supported to Your Computer Please Contact Maintenance Team").show();
             String ItemCode = generateItemId();
             boolean isSaved = stockModel.saveStock(new Stock(
                     ItemCode,
@@ -104,14 +115,14 @@ public class AdminStockController {
                     txtSellingUnitPrice.getText(),
                     Date.valueOf(Dayepurchursedate.getValue()),
                     txtPurchursePrice.getText()
-
             ));
             if (isSaved) {
-                new Alert(Alert.AlertType.INFORMATION, "Customer Saved!").show();
+                new Alert(Alert.AlertType.INFORMATION, "Item Saved!").show();
                 loadCustomerTable();
                 clearFields();
+            }else{
+                new Alert(Alert.AlertType.INFORMATION, "Someting went wrong!").show();
             }
-
         } catch (SQLIntegrityConstraintViolationException ex) {
             new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
         } catch (ClassNotFoundException | SQLException e) {
@@ -172,9 +183,7 @@ public class AdminStockController {
                 );
 
                 Dbtn.setOnAction(actionEvent -> deleteCustomer(tm.getItemCode()));
-
-                Ebtn.setOnAction(event -> loadCustomerData(stock));
-
+                Ebtn.setOnAction(event -> loadCustomerData(stock,tm.getItemCode()));
                 tmList.add(tm);
             }
 
@@ -189,7 +198,7 @@ public class AdminStockController {
         try {
             boolean isDeleted = stockModel.deleteStock(itemCode);
             if (isDeleted) {
-                new Alert(Alert.AlertType.INFORMATION, "Customer Deleted!").show();
+                new Alert(Alert.AlertType.INFORMATION, "Item Deleted!").show();
                 loadCustomerTable();
             } else {
                 new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
@@ -200,7 +209,7 @@ public class AdminStockController {
         }
     }
 
-    private void loadCustomerData(Stock stock) {
+    private void loadCustomerData(Stock stock, String itemCode) {
         txtItemName.setText(stock.getName());
         txtCategory.setText(stock.getCategory());
         txtCompany.setText(stock.getCompany());
@@ -209,6 +218,8 @@ public class AdminStockController {
         txtSellingUnitPrice.setText(stock.getSellingUnitPrice());
         Dayepurchursedate.setValue(LocalDate.parse(String.valueOf(stock.getPurchaseDate())));
         txtPurchursePrice.setText(stock.getPurchasePrice());
+        updateButtonStates();
+        updateItemCode = itemCode;
     }
 
 
@@ -216,7 +227,26 @@ public class AdminStockController {
 
     }
 
-    public void UpdatebtnOnAction(ActionEvent actionEvent) {
+    public void UpdatebtnOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        boolean isUpdate = stockModel.updateStock(
+                new Stock(
+                        updateItemCode,
+                        txtItemName.getText(),
+                        txtCategory.getText(),
+                        txtCompany.getText(),
+                        txtPurchurseQty.getText(),
+                        Date.valueOf(DateExpired.getValue()),
+                        txtSellingUnitPrice.getText(),
+                        Date.valueOf(Dayepurchursedate.getValue()),
+                        txtPurchursePrice.getText()
+                ));
+        if (isUpdate) {
+            new Alert(Alert.AlertType.INFORMATION, "Item Updated!").show();
+            loadCustomerTable();
+            clearFields();
+        }else{
+            new Alert(Alert.AlertType.INFORMATION, "Someting went wrong!").show();
+        }
     }
 
     public void ResetBtnOnAction(ActionEvent actionEvent) {

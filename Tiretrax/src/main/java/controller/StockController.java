@@ -53,6 +53,7 @@ public class StockController {
     public TableColumn<StockTm, String> purchurseprice;
     public TableColumn<StockTm, String> edit;
     public TableColumn<StockTm, String> delete;
+    private String updateItemCode;
 
     public void initialize() {
         itemCode.setCellValueFactory(new PropertyValueFactory<>("ItemCode"));
@@ -68,6 +69,17 @@ public class StockController {
         edit.setCellValueFactory(new PropertyValueFactory<>("Edit"));
         delete.setCellValueFactory(new PropertyValueFactory<>("Delete"));
         loadCustomerTable();
+        updateButtonStates();
+    }
+    private void updateButtonStates() {
+        boolean fieldsFilled = !txtItemName.getText().isEmpty()
+                && !txtCategory.getText().isEmpty()
+                && !txtPurchurseQty.getText().isEmpty()
+                && !txtPurchursePrice.getText().isEmpty()
+                && !txtSellingUnitPrice.getText().isEmpty();
+
+        btnSave.setDisable(fieldsFilled );
+        Updatebtn.setDisable(!fieldsFilled);
     }
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) AddItem.getScene().getWindow();
@@ -95,8 +107,6 @@ public class StockController {
     }
     public void btnSaveOnAction(ActionEvent actionEvent) {
         try {
-
-            //new Alert(Alert.AlertType.WARNING,"This Function Not Supported to Your Computer Please Contact Maintenance Team").show();
             String ItemCode = generateItemId();
             boolean isSaved = stockModel.saveStock(new Stock(
                     ItemCode,
@@ -177,7 +187,7 @@ public class StockController {
 
                 Dbtn.setOnAction(actionEvent -> deleteCustomer(tm.getItemCode()));
 
-               Ebtn.setOnAction(event -> loadCustomerData(stock));
+               Ebtn.setOnAction(event -> loadCustomerData(stock,tm.getItemCode()));
 
                 tmList.add(tm);
             }
@@ -204,7 +214,7 @@ public class StockController {
         }
     }
 
-    private void loadCustomerData(Stock stock) {
+    private void loadCustomerData(Stock stock, String itemCode) {
         txtItemName.setText(stock.getName());
         txtCategory.setText(stock.getCategory());
         txtCompany.setText(stock.getCompany());
@@ -213,6 +223,8 @@ public class StockController {
         txtSellingUnitPrice.setText(stock.getSellingUnitPrice());
         Dayepurchursedate.setValue(LocalDate.parse(String.valueOf(stock.getPurchaseDate())));
         txtPurchursePrice.setText(stock.getPurchasePrice());
+        updateButtonStates();
+        updateItemCode = itemCode;
     }
 
 
@@ -220,7 +232,26 @@ public class StockController {
 
     }
 
-    public void UpdatebtnOnAction(ActionEvent actionEvent) {
+    public void UpdatebtnOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        boolean isUpdate = stockModel.updateStock(
+                new Stock(
+                        updateItemCode,
+                        txtItemName.getText(),
+                        txtCategory.getText(),
+                        txtCompany.getText(),
+                        txtPurchurseQty.getText(),
+                        Date.valueOf(DateExpired.getValue()),
+                        txtSellingUnitPrice.getText(),
+                        Date.valueOf(Dayepurchursedate.getValue()),
+                        txtPurchursePrice.getText()
+                ));
+        if (isUpdate) {
+            new Alert(Alert.AlertType.INFORMATION, "Item Updated!").show();
+            loadCustomerTable();
+            clearFields();
+        }else{
+            new Alert(Alert.AlertType.INFORMATION, "Someting went wrong!").show();
+        }
     }
 
     public void ResetBtnOnAction(ActionEvent actionEvent) {
