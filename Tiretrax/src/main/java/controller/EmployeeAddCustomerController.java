@@ -2,6 +2,7 @@ package controller;
 
 import db.DBConnection;
 import dto.Customer;
+import dto.EmployeeUpdateCustomer;
 import dto.tm.CustomerTm;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -56,49 +57,26 @@ public class EmployeeAddCustomerController {
         creditPeriod.setCellValueFactory(new PropertyValueFactory<>("CreditPeriod"));
         editColumn.setCellValueFactory(new PropertyValueFactory<>("edit"));
         DeleteColumn.setCellValueFactory(new PropertyValueFactory<>("Delete"));
-      //  cmbCustomerType.setItems(FXCollections.observableArrayList("Regular", "On-time"));
         loadCustomerTable();
         updateButtonStates();
-//        tblCustomer.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldValue, newValue) ->{
-//            setData((CustomerTm)newValue);
-//        } ));
     }
 
-//    private void setData(CustomerTm newValue) {
-//        if(newValue!=null) {
-//            String[] nameParts =newValue.getName().split(" ", 2);
-//            txtFirstName.setText(nameParts.length > 0 ? nameParts[0] : "");
-//            txtLastName.setText(nameParts.length > 1 ? nameParts[1] : "");
-//            txtAddress.setText(newValue.getAddress());
-//            txtContact.setText(newValue.getContact());
-//            txtEmail.setText(newValue.getEmail());
-//            cmbCustomerType.setItems(FXCollections.observableArrayList(newValue.getType()));
-//            txtCreditLimit.setText(String.valueOf(newValue.getCreditLimit()));
-//            txtCreditPeriod.setText(newValue.getCreditPeriod());
-//        }
-//    }
-
-    private void loadCustomerData(Customer customer) {
+    private void loadCustomerData(Customer customer, String customerID) {
         String[] nameParts = customer.getName().split(" ", 2);
         txtFirstName.setText(nameParts.length > 0 ? nameParts[0] : "");
         txtLastName.setText(nameParts.length > 1 ? nameParts[1] : "");
         txtAddress.setText(customer.getAddress());
         txtContact.setText(customer.getContact());
         txtEmail.setText(customer.getEmail());
-        txtCreditLimit.setText(String.valueOf(customer.getCreditLimit()));
-        txtCreditPeriod.setText(customer.getCreditPeriod());
-        cmbCustomerType.setValue(customer.getType());
         updateButtonStates();
+        updateCusID = customerID;
     }
     private void updateButtonStates() {
         boolean fieldsFilled = !txtFirstName.getText().isEmpty()
                 && !txtLastName.getText().isEmpty()
                 && !txtAddress.getText().isEmpty()
                 && !txtContact.getText().isEmpty()
-                && !txtEmail.getText().isEmpty()
-                && !txtCreditLimit.getText().isEmpty()
-                && !txtCreditPeriod.getText().isEmpty()
-                && cmbCustomerType.getValue() != null;
+                && !txtEmail.getText().isEmpty();
 
         btnSave.setDisable(fieldsFilled );
         btnUpdate.setDisable(!fieldsFilled || updateCusID == null);
@@ -167,8 +145,8 @@ public class EmployeeAddCustomerController {
                 );
 
                 btnDelete.setOnAction(actionEvent -> deleteCustomer(tm.getCustomerId()));
-                btnEdit.setOnAction(event -> loadCustomerData(customer));
-                updateCusID = tm.getCustomerId();
+                btnEdit.setOnAction(event -> loadCustomerData(customer,tm.getCustomerId()));
+                //updateCusID = tm.getCustomerId();
                 tmList.add(tm);
             }
 
@@ -194,38 +172,27 @@ public class EmployeeAddCustomerController {
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
         try {
-            txtCreditPeriod.setVisible(true);
-            txtCreditLimit.setVisible(true);
-            String Cmb=cmbCustomerType.getValue();
             String CusId = generateCustomerId();
-            boolean isSaved = false;
-            if(Cmb.equals("On-time")){
-                isSaved = customerModel.saveCustomer(new Customer(
-                        CusId,
-                        txtFirstName.getText() + " " + txtLastName.getText(),
-                        txtContact.getText(),
-                        txtEmail.getText(),
-                        txtAddress.getText(),
-                        cmbCustomerType.getValue(),
-                        0,
-                        ""
-                ));
-            }else{
-                isSaved = customerModel.saveCustomer(new Customer(
-                        CusId,
-                        txtFirstName.getText() + " " + txtLastName.getText(),
-                        txtContact.getText(),
-                        txtEmail.getText(),
-                        txtAddress.getText(),
-                        cmbCustomerType.getValue(),
-                        Double.parseDouble(txtCreditLimit.getText()),
-                        txtCreditPeriod.getText()
-                ));
-            }
-            if (isSaved) {
-                new Alert(Alert.AlertType.INFORMATION, "Customer Saved!").show();
-                loadCustomerTable();
-                clearFields();
+            boolean isValidData = validateData(txtContact.getText(),txtEmail.getText());
+            if(isValidData){
+            boolean isSaved = customerModel.saveCustomer(new Customer(
+                    CusId,
+                    txtFirstName.getText() + " " + txtLastName.getText(),
+                    txtContact.getText(),
+                    txtEmail.getText(),
+                    txtAddress.getText(),
+                    "On-time",
+                    0,
+                    ""
+            ));
+
+                if (isSaved) {
+                    new Alert(Alert.AlertType.INFORMATION, "Customer Saved!").show();
+                    loadCustomerTable();
+                    clearFields();
+                }else {
+                    new Alert(Alert.AlertType.INFORMATION, "Something went wrong!").show();
+                }
             }
         } catch (SQLIntegrityConstraintViolationException ex) {
             new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
@@ -245,42 +212,28 @@ public class EmployeeAddCustomerController {
         txtAddress.clear();
         txtContact.clear();
         txtEmail.clear();
-        txtCreditLimit.clear();
-        txtCreditPeriod.clear();
-        cmbCustomerType.setValue(null);
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
         try{
-            boolean isUpdate=false;
-            String Cmb=cmbCustomerType.getValue();
-            if(Cmb.equals("On-time")) {
-                isUpdate = customerModel.updateCustomer(new Customer(
-                        updateCusID,
-                        txtFirstName.getText() + " " + txtLastName.getText(),
-                        txtContact.getText(),
-                        txtEmail.getText(),
-                        txtAddress.getText(),
-                        cmbCustomerType.getValue(),
-                        0,
-                        ""
-                ));
-            }else{
-                isUpdate = customerModel.updateCustomer(new Customer(
-                        updateCusID,
-                        txtFirstName.getText() + " " + txtLastName.getText(),
-                        txtContact.getText(),
-                        txtEmail.getText(),
-                        txtAddress.getText(),
-                        cmbCustomerType.getValue(),
-                        Double.parseDouble(txtCreditLimit.getText()),
-                        txtCreditPeriod.getText()
-                ));
-            }
-            if (isUpdate) {
-                new Alert(Alert.AlertType.INFORMATION, "Customer Update!").show();
-                loadCustomerTable();
-                clearFields();
+            boolean isValidData = validateData(txtContact.getText(),txtEmail.getText());
+            if(isValidData){
+            boolean isUpdate = customerModel.employeeUpdateCustomer(
+                    new EmployeeUpdateCustomer(
+                            updateCusID,
+                            txtFirstName.getText() + " " + txtLastName.getText(),
+                            txtContact.getText(),
+                            txtEmail.getText(),
+                            txtAddress.getText()
+                    ));
+
+                if (isUpdate) {
+                    new Alert(Alert.AlertType.INFORMATION, "Customer Update!").show();
+                    loadCustomerTable();
+                    clearFields();
+                }else {
+                    new Alert(Alert.AlertType.INFORMATION, "Something went wrong!").show();
+                }
             }
         } catch (SQLIntegrityConstraintViolationException ex) {
             new Alert(Alert.AlertType.ERROR, "Duplicate Entry").show();
@@ -289,7 +242,6 @@ public class EmployeeAddCustomerController {
         };
     }
 
-
     public void btnresetOnAction(ActionEvent actionEvent) {
         clearFields();
         loadCustomerTable();
@@ -297,22 +249,14 @@ public class EmployeeAddCustomerController {
         btnSave.setDisable(false);
     }
 
-
-
-    public void cmbCustomerTypeOnAction(ActionEvent actionEvent) {
-        String Cmb=cmbCustomerType.getValue();
-
-        if (Cmb.equals("On-time")){
-
-            txtCreditPeriod.setVisible(false);
-            txtCreditLimit.setVisible(false);
-        }else{
-            txtCreditPeriod.setVisible(true);
-            txtCreditLimit.setVisible(true);
+    private boolean validateData(String contact, String email){
+        if (!contact.matches("^0\\d{9}$")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid Contact Number").show();
+            return false;
+        } else if (!email.matches("^[\\w\\.-]+@[\\w\\.-]+\\.com$")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid email").show();
+            return false;
         }
+        return true;
     }
-
-//    public void EmployeeSearchBtnOnAction(ActionEvent actionEvent) {
-//
-//    }
 }
