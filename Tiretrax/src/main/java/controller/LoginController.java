@@ -96,7 +96,7 @@ public class LoginController {
 
 
     public void BtnResignOnAction(ActionEvent actionEvent) throws MessagingException {
-        String receiveEmail = "ranasingheyuwani@gmail.com";
+        String receiveEmail = "dinillamahewa00@gmail.com";
         sendEmail(receiveEmail);
     }
 
@@ -114,7 +114,7 @@ public class LoginController {
         properties.put("mail.smtp.host","smtp.gmail.com");
         properties.put("mail.smtp.port","587");
 
-        String sendEmail = "yuwaniranasinghe@gmail.com";
+        String sendEmail = "d.k.tireworks@gmail.com";
         String password = "ykdt tjht cjdk htvu";
 
         Session session = Session.getInstance(properties, new Authenticator() {
