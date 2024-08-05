@@ -27,7 +27,7 @@ public class HomeController {
 
     public void BtnPurchaseOrderOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) HomePane.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/Login.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/EmployeeDashBoard.fxml"))));
         stage.centerOnScreen();
         stage.setTitle("Employee - Login");
         stage.setResizable(false);

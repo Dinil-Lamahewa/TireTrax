@@ -29,7 +29,7 @@ public class LoginController {
     public TextField txtPassWord;
     public Button btnLogIn;
 
-    public void btnLogInOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException, IOException {
+    public void BtnSignInOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException, IOException {
         String enteredUsername = txtUserName.getText();
         String enteredPassword = txtPassWord.getText();
 
@@ -100,8 +100,6 @@ public class LoginController {
         sendEmail(receiveEmail);
     }
 
-    public void BtnSignInOnAction(ActionEvent actionEvent) {
-    }
 
     public void ForgertPasswordOnAction(MouseEvent mouseEvent) throws MessagingException {
 
@@ -115,7 +113,7 @@ public class LoginController {
         properties.put("mail.smtp.port","587");
 
         String sendEmail = "d.k.tireworks@gmail.com";
-        String password = "ykdt tjht cjdk htvu";
+        String password = "zvsq tlqa xxak xlop";
 
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override

@@ -8,17 +8,18 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 
 public class InvoiceItem {
+    private final StringProperty itemId;
     private final StringProperty itemName;
     private final DoubleProperty unitPrice;
     private final IntegerProperty quantity;
     private final DoubleProperty totalPrice;
 
-    public InvoiceItem(String itemName, double unitPrice) {
+    public InvoiceItem(String itemId, String itemName, double unitPrice) {
+        this.itemId = new SimpleStringProperty(itemId);
         this.itemName = new SimpleStringProperty(itemName);
         this.unitPrice = new SimpleDoubleProperty(unitPrice);
         this.quantity = new SimpleIntegerProperty(1);
         this.totalPrice = new SimpleDoubleProperty(unitPrice);
-
 
         this.unitPrice.addListener((obs, oldVal, newVal) -> updateTotalPrice());
         this.quantity.addListener((obs, oldVal, newVal) -> updateTotalPrice());
@@ -28,6 +29,18 @@ public class InvoiceItem {
         double unitPriceValue = unitPrice.get();
         int quantityValue = quantity.get();
         totalPrice.set(unitPriceValue * quantityValue);
+    }
+
+    public String getItemId() {
+        return itemId.get();
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId.set(itemId);
+    }
+
+    public StringProperty itemIdProperty() {
+        return itemId;
     }
 
     public String getItemName() {

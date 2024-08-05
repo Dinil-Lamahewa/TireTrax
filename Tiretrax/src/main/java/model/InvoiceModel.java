@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface InvoiceModel {
-    boolean saveInvoice(InvoiceMaster ivm , InvoiceDetails ivd) throws SQLException, ClassNotFoundException;
+    boolean saveInvoice(InvoiceMaster ivm, List<InvoiceDetails> ivdList) throws SQLException, ClassNotFoundException;
     boolean updateInvoice(InvoiceMaster ivm , InvoiceDetails ivd) throws SQLException, ClassNotFoundException;
     boolean deleteInvoice(String id) throws SQLException, ClassNotFoundException;
     ResultSet getInvoiceById(String InvoNumber) throws SQLException, ClassNotFoundException;
