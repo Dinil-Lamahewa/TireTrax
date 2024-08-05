@@ -54,12 +54,12 @@ public class AdminDashBoardController {
     }
 
     public void viewReportOnAction(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) AdminDashBoardPane.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/Report.fxml"))));
-        stage.centerOnScreen();
-        stage.setTitle("View Report");
-        stage.setResizable(false);
-        stage.show();
+//        Stage stage = (Stage) AdminDashBoardPane.getScene().getWindow();
+//        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/Report.fxml"))));
+//        stage.centerOnScreen();
+//        stage.setTitle("View Report");
+//        stage.setResizable(false);
+//        stage.show();
     }
 
     public void invoiceBtnOnAction(ActionEvent actionEvent) throws IOException {
