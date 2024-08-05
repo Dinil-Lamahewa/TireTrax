@@ -18,7 +18,7 @@ public class HomeController {
 
     public void btnAddItemOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) HomePane.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/AdminDashBoard.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/Login.fxml"))));
         stage.centerOnScreen();
         stage.setTitle("Admin - Login");
         stage.setResizable(false);
